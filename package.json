@@ -1,0 +1,29 @@
+{
+  "name": "booger-swag",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/ovalkonia/booger-swag#readme",
+  "bugs": {
+    "url": "https://github.com/ovalkonia/booger-swag/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ovalkonia/booger-swag.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1"
+  }
+}
