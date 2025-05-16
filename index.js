@@ -18,6 +18,9 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
     return res.render("index");
 });
+app.get("/tutorial", (req, res) => {
+    res.render("tutorial");
+});
 
 app.use(auth_router);
 
