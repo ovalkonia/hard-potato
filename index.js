@@ -18,9 +18,16 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
     return res.render("index");
 });
+
+//For testing -------------------------
 app.get("/tutorial", (req, res) => {
     res.render("tutorial");
 });
+
+app.get("/home", (req, res) => {
+    res.render("home");
+});
+//--------------------------------------
 
 app.use(auth_router);
 
