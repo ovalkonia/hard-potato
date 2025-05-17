@@ -9,7 +9,11 @@
 <body>
     <div class="home-container">
         <div class="user-info">
-            <img class="avatar" src="https://media.contentapi.ea.com/content/dam/eacom/en-us/migrated-images/2016/06/play-pvzheroes-greenshadow.png.adapt.crop1x1.652w.png" alt="User avatar">
+            <div class="avatar-wrapper">
+                <img class="avatar" src="/images/greenshadow.png" alt="User avatar">
+                <div class="change-avatar-text">Change avatar</div>
+            </div>
+            
             <h2>Username</h2>
         </div>
         <div class="buttons">
@@ -18,5 +22,44 @@
             <a href="/auth/login" class ="main-button">Log out</a>
         </div>
     </div>
+    <div class="avatar-modal" id="avatar-modal">
+        <div class="avatar-modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h3>Choose your avatar</h3>
+            <div class="avatar-gallery">
+                <img src="/images/brainfreeze.png" alt="avatar1">
+                <img src="/images/chompzilla.png" alt="avatar2">
+                <img src="/images/grassknuckles.png" alt="avatar3">
+                <img src="/images/greenshadow.png" alt="avatar4">
+                <img src="/images/impfinity.png" alt="avatar5">
+                <img src="/images/solarflare.png" alt="avatar6">
+                <img src="/images/superbrainz.png" alt="avatar7">
+                <img src="/images/thesmash.png" alt="avatar8">
+            </div>
+        </div>
+    </div>
 </body>
+    <script>
+        const avatarWrapper = document.querySelector('.avatar-wrapper');
+        const avatarModal = document.getElementById('avatar-modal');
+        const closeModal = document.getElementById('close-modal');
+        const avatarImg = document.getElementById('user-avatar');
+
+        avatarWrapper.addEventListener('click', () => {
+            avatarModal.style.display = 'flex';
+        });
+
+        closeModal.addEventListener('click', () => {
+            avatarModal.style.display = 'none';
+        });
+
+        document.querySelectorAll('.avatar-gallery img').forEach(img => {
+            img.addEventListener('click', () => {
+                const newSrc = img.src;
+                avatarImg.src = newSrc;             //crutch, will be replaced with ajax
+                avatarModal.style.display = 'none';
+
+            });
+        });
+    </script>
 </html>

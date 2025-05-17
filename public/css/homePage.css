@@ -50,6 +50,7 @@ body {
     box-shadow: 0 0 10px #ffde59;
     margin-bottom: 10px;
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .avatar:hover {
@@ -87,4 +88,86 @@ h2 {
     transform: translateY(-2px);
     box-shadow: 0 8px #00836e;
     background: linear-gradient(to bottom, #00fff0, #00b89d);
+}
+
+.avatar-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.change-avatar-text {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #ffde59;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    cursor: pointer;
+}
+
+.avatar:hover + .change-avatar-text {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.avatar-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar-modal-content {
+    background-color: #222;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 3px solid #00ffc3;
+    box-shadow: 0 0 20px #00ffc3;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 22px;
+    color: #ffde59;
+    cursor: pointer;
+}
+
+.avatar-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.avatar-gallery img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.avatar-gallery img:hover {
+    transform: scale(1.1);
+    border-color: #ffde59;
 }
