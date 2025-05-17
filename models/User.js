@@ -5,11 +5,12 @@ export class User extends Model {
         super.init("users");
     }
 
-    constructor({ id, email, password }) {
+    constructor({ id, email, username, password }) {
         super();
 
         this.id = id;
         this.email = email;
+        this.username = username;
         this.password = password;
     }
 }

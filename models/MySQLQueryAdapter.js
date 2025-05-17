@@ -1,6 +1,4 @@
-// Don't matter for now
-
-export default class MariaDBQueryAdapter {
+export default class MySQLQueryAdapter {
     static where(key, operator, value) {
         return {
             sql: `${key} ${operator} ?`,

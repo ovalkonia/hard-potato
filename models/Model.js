@@ -1,8 +1,6 @@
-import mariadb_pool from "../configs/mariadb_pool.js";
+import mysql_pool from "../databases/mysql_pool.js";
 import QueryBuilder from "./QueryBuilder.js";
-import MariaDBQueryAdapter from "../utils/MariaDBQueryAdapter.js";
-
-// Don't matter for now
+import MySQLQueryAdapter from "./MySQLQueryAdapter.js";
 
 export class Model {
     static init(table) {
@@ -25,25 +23,26 @@ export class Model {
 
             const statement = `INSERT INTO ${this.constructor.table} (${columns}) VALUES (${placeholders})`;
 
-            const connection = await mariadb_pool.getConnection();
+            const connection = await mysql_pool.getConnection();
             const prepare = await connection.prepare(statement);
             const result = await prepare.execute(values);
 
-            console.log(result);
+            return result;
         } catch (error) {
+            console.log(error);
             throw new Error("Database error");
         }
     }
 
     static async get_query(query = QueryBuilder.where("1", "=", 1)) {
         try {
-            const { sql, values } = QueryBuilder.build(query, MariaDBQueryAdapter);
+            const { sql, values } = QueryBuilder.build(query, MySQLQueryAdapter);
 
             const statement = `SELECT * FROM ${this.table} WHERE ${sql}`;
 
-            const connection = await mariadb_pool.getConnection();
+            const connection = await mysql_pool.getConnection();
             const prepare = await connection.prepare(statement);
-            const results = await prepare.execute(values);
+            const [ results ] = await prepare.execute(values);
 
             return results;
         } catch (error) {
