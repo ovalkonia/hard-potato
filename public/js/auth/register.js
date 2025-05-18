@@ -1,5 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector('form');
+
+    function showPopupMessage(message, duration = 1000) {
+        const popup = document.getElementById('message-popup');
+        popup.textContent = message;
+        popup.classList.remove('hidden');
+        popup.classList.add('show');
+
+        setTimeout(() => {
+            popup.classList.remove('show');
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 500);
+        }, duration);
+    }
+
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -13,13 +28,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify(data)
             });
 
+            const responseData = await res.json();
+
             if (res.ok) {
-                window.location.href = '/auth/login';
+                showPopupMessage(responseData.message);
+                setTimeout(() => {
+                    window.location.href = '/auth/login';
+                }, 1500);
             } else {
-                console.log("hihihaha");
+                showMessage(responseData.message || "Something went wrong.", true);
             }
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('Error:', error);
+            showPopupMessage("Server error. Please try again.", 4000);
         }
     });
 });
