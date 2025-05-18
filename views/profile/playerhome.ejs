@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome, Username!</title>
+    <title>Welcome, <%= username %>!</title>
     <link rel="stylesheet" href="/css/homePage.css">
 </head>
 <body>
     <div class="home-container">
         <div class="user-info">
             <div class="avatar-wrapper">
-                <img class="avatar" id = "user-avatar" src="/images/avatars/greenshadow.png" alt="User avatar">
+                <img class="avatar" id="user-avatar" src="<%= avatarUrl %>" alt="User avatar">
                 <div class="change-avatar-text">Change avatar</div>
             </div>
-            
-            <h2>Username</h2>
+            <h2><%= username %></h2>
         </div>
         <div class="buttons">
             <a href="/tutorial" class="main-button">Tutorial</a>
@@ -39,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div class="profile-modal" id="profile-modal">
+        <div class="profile-modal" id="profile-modal">
         <div class="profile-modal-content">
             <span class="close-profile-modal" id="close-profile-modal">&times;</span>
             <h3>Profile and Security</h3>
@@ -59,39 +58,7 @@
         </div>
     </div>
 </body>
-    <script>
-        const avatarWrapper = document.querySelector('.avatar-wrapper');
-        const avatarModal = document.getElementById('avatar-modal');
-        const closeModal = document.getElementById('close-modal');
-        const avatarImg = document.getElementById('user-avatar');
-        const profileButton = document.querySelector('.profile-button');
-        const profileModal = document.getElementById('profile-modal');
-        const closeProfileModal = document.getElementById('close-profile-modal');
-
-
-        avatarWrapper.addEventListener('click', () => {
-            avatarModal.style.display = 'flex';
-        });
-
-        closeModal.addEventListener('click', () => {
-            avatarModal.style.display = 'none';
-        });
-
-        profileButton.addEventListener('click', () => {
-            profileModal.style.display = 'flex';
-        });
-
-        closeProfileModal.addEventListener('click', () => {
-            profileModal.style.display = 'none';
-        });
-
-        document.querySelectorAll('.avatar-gallery img').forEach(img => {
-            img.addEventListener('click', () => {
-                const newSrc = img.src;
-                avatarImg.src = newSrc;             //crutch
-                avatarModal.style.display = 'none';
-
-            });
-        });
-    </script>
+<script src="/js/profile/avatar.js"></script>
+<script src="js/profile/profileUpdate"></script>
+<script src="js/profile/profileModal"></script>
 </html>
