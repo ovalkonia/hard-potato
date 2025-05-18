@@ -1,4 +1,4 @@
-export default class QueryBuilder {
+export default class FilterBuilder {
     static where(key, operator, value) {
         return { type: "filter", key, operator, value };
     }
