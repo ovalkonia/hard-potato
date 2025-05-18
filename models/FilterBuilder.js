@@ -8,7 +8,7 @@ export default class FilterBuilder {
     }
 
     static or(...filters) {
-        return { type: "or", cfilters };
+        return { type: "or", filters };
     }
 
     static build(query, adapter) {
