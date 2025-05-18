@@ -1,4 +1,4 @@
-export default class QueryBuilder {
+export default class FilterBuilder {
     static where(key, operator, value) {
         return { type: "filter", key, operator, value };
     }
@@ -8,7 +8,7 @@ export default class QueryBuilder {
     }
 
     static or(...filters) {
-        return { type: "or", filters };
+        return { type: "or", cfilters };
     }
 
     static build(query, adapter) {

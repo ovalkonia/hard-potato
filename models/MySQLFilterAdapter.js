@@ -1,4 +1,4 @@
-export default class MySQLQueryAdapter {
+export default class MySQLFilterAdapter {
     static where(key, operator, value) {
         return {
             sql: `${key} ${operator} ?`,

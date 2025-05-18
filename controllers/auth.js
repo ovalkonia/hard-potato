@@ -1,4 +1,4 @@
-import { User } from "../models/User.js";
+import { User, UserException } from "../models/User.js";
 
 const auth_controller = {
     get_login: (req, res) => {
@@ -6,19 +6,13 @@ const auth_controller = {
             email: req.params.email,
         });
     },
-    // I'll do proper error handling later
-
     post_login: async (req, res) => {
         try {
             const user = await new User({
                 email: req.body.email,
                 password: req.body.password,
             }).find();
-            if (!user) {
-                throw {
-                    code: 401,
-                };
-            }
+            if (!user) throw UserException.CREDENTIALS_INVALID;
 
             // set session here
 
@@ -28,10 +22,7 @@ const auth_controller = {
                 data: user,
             });
         } catch (error) {
-            res.status(error.code).json({
-                status: "Fail!",
-                message: "Invalid creadentials typa stuff!",
-            });
+            res.status(error.code).json(error.form_response());
         }
     },
 
@@ -42,31 +33,30 @@ const auth_controller = {
     },
     post_register: async (req, res) => {
         try {
-            const lookup = await new User({
-                email: req.body.email,
-            }).find();
-            if (lookup) {
-                throw {
-                    code: 401,
-                };
-            }
+            const lookup = await new User({ email: req.body.email }).find();
+            if (lookup) throw UserException.USER_EXISTS;
 
-            const user = await new User(req.body).insert([
-                "email",
-                "username",
-                "password",
-            ]);
+            const user = await new User({
+                email: req.body.email,
+                username: req.body.username,
+                password: req.body.password,
+            })
+                .validate_email()
+                .validate_username()
+                .validate_password()
+                .insert([
+                    "email",
+                    "username",
+                    "password",
+                ]);
 
             res.json({
                 status: "Success!",
-                message: "Successfully registered in!",
+                message: "Successfully registered!",
                 data: user,
             });
         } catch (error) {
-            res.status(error.code).json({
-                status: "Fail!",
-                message: "Some generaic error!",
-            });
+            res.status(error.code).json(error.form_response());
         }
     },
 };
