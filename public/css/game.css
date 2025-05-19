@@ -92,17 +92,6 @@ body {
     background: #00994d;
 }
 
-/* Колоды */
-.deck {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-}
-
-.deck img {
-    height: 70px;
-}
-
 /* Поле боя */
 .battlefield {
     display: flex;
@@ -157,42 +146,51 @@ body {
 
 .card-in-deck {
     position: relative;
-    width: 100px;
-    height: 140px;
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid #fff;
-    border-radius: 12px;
+    width: 110px;
+    height: 150px;
+    background: linear-gradient(135deg, #3a3a3a, #222);
+    border: 4px solid #ffffff;
+    border-radius: 16px;
     padding: 6px;
+    box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.3),
+        inset 0 0 8px rgba(0, 255, 204, 0.1);
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
 }
 
 .card-in-deck:hover {
-    transform: scale(1.08);
+    transform: scale(1.12);
     cursor: pointer;
+    box-shadow:
+        0 0 20px rgba(255, 255, 255, 0.383),
+        inset 0 0 10px rgba(0, 255, 204, 0.4);
 }
 
 .unit-image {
-    width: 70px;
-    height: 70px;
+    width: 75px;
+    height: 75px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #fff;
+    border: 3px solid #fff;
 }
 
 .stat {
     position: absolute;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    font-size: 12px;
+    background: radial-gradient(circle at top left, #444, #000);
+    color: #00ffff;
+    font-size: 13px;
     font-weight: bold;
-    padding: 3px 6px;
-    border-radius: 50px;
+    padding: 4px 8px;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     gap: 4px;
+    border: 2px solid #00ffff;
+    transition: background 0.3s;
 }
 
 .stat img {
