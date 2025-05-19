@@ -27,6 +27,10 @@ app.get("/tutorial", (req, res) => {
 app.get("/home", (req, res) => {
     res.render("home");
 });
+
+app.get("/lobby/testgamepage", (req, res) => {
+    res.render("lobby/testgamepage");
+});
 //--------------------------------------
 
 app.use(auth_router);
