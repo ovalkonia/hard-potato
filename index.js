@@ -2,6 +2,7 @@ import express from "express";
 
 import auth_router from "./routes/auth.js";
 import profile_router from "./routes/profile.js";
+import lobby_router from "./routes/lobby.js";
 
 const app = express();
 const port = 8080;
@@ -36,6 +37,7 @@ app.get("/lobby/testgamepage", (req, res) => {
 
 app.use(auth_router);
 app.use(profile_router);
+app.use(lobby_router);
 
 app.all("*any", (req, res) => {
     return res.render("404");

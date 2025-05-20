@@ -23,7 +23,7 @@ document.getElementById('play-button').addEventListener('click', async () => {
         });
 
         if (res.ok) {
-
+            window.location.href = '/lobby/gamepage';
         } else {
             console.log('Failed to start a game.');
         }
