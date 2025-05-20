@@ -1,3 +1,5 @@
+import { io } from "https://cdn.socket.io/4.8.1/socket.io.esm.min.js";
+
 const savedOffset = localStorage.getItem('serverOffset');
 
 const socket = io({
@@ -7,9 +9,23 @@ const socket = io({
 });
 
 let waitingModule = null;
+// import('./waiting.js').then(mod => {
+//     waitingModule = mod;
+//     waitingModule.startDotAnimation();
+// });
+
 import('./waiting.js').then(mod => {
     waitingModule = mod;
-    waitingModule.startAnimation();
+    waitingModule.startDotAnimation();
+
+    document.querySelector('.waiting-container').style.display = 'flex';
+    
+    setTimeout(() => {
+        waitingModule.stopDotAnimation();
+
+        document.querySelector('.waiting-container').style.display = 'none';
+        document.getElementById('game-ui').style.display = 'block';
+    }, 30000);
 });
 
 socket.on("connect", () => {
@@ -28,7 +44,7 @@ socket.on("connect_error", (err) => {
 socket.on("disconnect", (reason) => {
     console.warn("Disconnected:", reason);
     if (waitingModule) {
-        waitingModule.startAnimation();
+        waitingModule.startDotAnimation();
     }
 
     if (reason === "io server disconnect") {
@@ -38,8 +54,11 @@ socket.on("disconnect", (reason) => {
 
 socket.on('gameStart', (data, serverOffset) => {
     if (waitingModule) {
-        waitingModule.stopAnimation();
+        waitingModule.stopDotAnimation();
     }
+
+    document.querySelector('.waiting-container').style.display = 'none';
+    document.getElementById('game-ui').style.display = 'block';
 
     socket.auth.serverOffset = serverOffset;
     localStorage.setItem('serverOffset', serverOffset);

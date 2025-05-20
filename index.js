@@ -24,8 +24,8 @@ app.get("/tutorial", (req, res) => {
     res.render("tutorial");
 });
 
-app.get("/home", (req, res) => {
-    res.render("home");
+app.get("/profile/home", (req, res) => {
+    res.render("profile/home");
 });
 
 app.get("/lobby/testgamepage", (req, res) => {

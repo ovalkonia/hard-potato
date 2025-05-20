@@ -3,71 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <title>Game Room</title>
-    <link rel="stylesheet" href="/css/game.css">
+    <link rel="stylesheet" href="/css/lobby.css">
 </head>
 <body>
-    <!-- Top HUD (player 2)-->
-    <div class="hud top">
-        <div class="player-info">
-            <img src="/images/avatars/greenshadow.png" alt="Avatar" class="avatar">
-            <div class="nickname">EnemyPlayer</div>
-        </div>
-        <div class="health">
-            <img src="/images/lobby/lowhp.png" alt="heart" class="icon">
-            <div class="value">5</div>
+
+    <div class="waiting-container">
+        <div class="message">
+            Searching for another player<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
         </div>
     </div>
-
-    <!-- Battlefield -->
-    <div class="battlefield">
-        <!-- Player2 cards -->
-        <div class="player2-cards cards-row">
-            <div class="card enemy-card">Dragon</div>
-            <div class="card enemy-card">Knight</div>
-            <div class="card enemy-card">Archer</div>
-        </div>
-
-        <!-- Player1 cards -->
-        <div class="player1-cards cards-row">
-            <div class="card my-card" data-card-id="1">Swordsman</div>
-            <div class="card my-card" data-card-id="2">Wizard</div>
-            <div class="card my-card" data-card-id="3">Healer</div>
-        </div>
-    </div>
-
-    <div class="hand">
-        <div class="card-hand">
-            <div class="card-in-deck">
-                <img class="unit-image" src="/images/avatars/solarflare.png" alt="Swordsman">
-                <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> 5</div>
-                <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> 3</div>
-                <div class="stat bottom-right"><img src="/images/lobby/cost.png"alt="Cost"> 2</div>
+    <div id="game-ui" style="display: none;">
+        <!-- Top HUD (player 2)-->
+        <div class="hud top">
+            <div class="player-info">
+                <img src="/images/avatars/greenshadow.png" alt="Avatar" class="avatar">
+                <div class="nickname">EnemyPlayer</div>
             </div>
-            <div class="card-in-deck">
-                <img class="unit-image" src="/images/avatars/chompzilla.png" alt="Wizard">
-                <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> 7</div>
-                <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> 2</div>
-                <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> 4</div>
+            <div class="health">
+                <img src="/images/lobby/lowhp.png" alt="heart" class="icon">
+                <div class="value">5</div>
             </div>
         </div>
-    </div>
 
-    <!-- Bottom HUD (Player 1) -->
-    <div class="hud bottom">
-        <div class="player-info">
-            <img src="/images/avatars/superbrainz.png" alt="Avatar" class="avatar">
-            <div class="nickname">MyPlayer</div>
+        <!-- Battlefield -->
+        <div class="battlefield">
+            <!-- Player2 cards -->
+            <div class="player2-cards cards-row">
+                <div class="card enemy-card">Dragon</div>
+                <div class="card enemy-card">Knight</div>
+                <div class="card enemy-card">Archer</div>
+            </div>
+
+            <!-- Player1 cards -->
+            <div class="player1-cards cards-row">
+                <div class="card my-card" data-card-id="1">Swordsman</div>
+                <div class="card my-card" data-card-id="2">Wizard</div>
+                <div class="card my-card" data-card-id="3">Healer</div>
+            </div>
         </div>
-        <div class="health">
-            <img src="/images/lobby/fullhp.png" alt="heart" class="icon">
-            <div class="value">25</div>
+
+        <div class="hand">
+            <div class="card-hand">
+                <div class="card-in-deck">
+                    <img class="unit-image" src="/images/avatars/solarflare.png" alt="Swordsman">
+                    <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> 5</div>
+                    <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> 3</div>
+                    <div class="stat bottom-right"><img src="/images/lobby/cost.png"alt="Cost"> 2</div>
+                </div>
+                <div class="card-in-deck">
+                    <img class="unit-image" src="/images/avatars/chompzilla.png" alt="Wizard">
+                    <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> 7</div>
+                    <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> 2</div>
+                    <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> 4</div>
+                </div>
+                <div class="card-in-deck">
+                    <img class="unit-image" src="/images/avatars/chompzilla.png" alt="Wizard">
+                    <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> 7</div>
+                    <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> 2</div>
+                    <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> 4</div>
+                </div>
+                <div class="card-in-deck">
+                    <img class="unit-image" src="/images/avatars/chompzilla.png" alt="Wizard">
+                    <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> 7</div>
+                    <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> 2</div>
+                    <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> 4</div>
+                </div>
+                <div class="card-in-deck">
+                    <img class="unit-image" src="/images/avatars/chompzilla.png" alt="Wizard">
+                    <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> 7</div>
+                    <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> 2</div>
+                    <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> 4</div>
+                </div>
+                <div class="card-in-deck">
+                    <img class="unit-image" src="/images/avatars/chompzilla.png" alt="Wizard">
+                    <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> 7</div>
+                    <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> 2</div>
+                    <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> 4</div>
+                </div>
+                    <div class="card-in-deck">
+                    <img class="unit-image" src="/images/avatars/chompzilla.png" alt="Wizard">
+                    <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> 7</div>
+                    <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> 2</div>
+                    <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> 4</div>
+                </div>
+            </div>
         </div>
-        <div class="mana">
-            <img src="/images/lobby/cost.png" alt="mana" class="icon">
-            <div class="value">10</div>
+
+        <!-- Bottom HUD (Player 1) -->
+        <div class="hud bottom">
+            <div class="player-info">
+                <img src="/images/avatars/superbrainz.png" alt="Avatar" class="avatar">
+                <div class="nickname">MyPlayer</div>
+            </div>
+            <div class="health">
+                <img src="/images/lobby/fullhp.png" alt="heart" class="icon">
+                <div class="value">25</div>
+            </div>
+            <div class="mana">
+                <img src="/images/lobby/cost.png" alt="mana" class="icon">
+                <div class="value">10</div>
+            </div>
+            <div class="timer" id="turn-timer">30</div>
+            <button id="end-turn">End Turn</button>
         </div>
-        <div class="timer" id="turn-timer">30</div>
-        <button id="end-turn">End Turn</button>
     </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script type="module" src="/js/lobby/main.js"></script>
 </html>
