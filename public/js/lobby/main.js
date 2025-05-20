@@ -25,7 +25,7 @@ import('./waiting.js').then(mod => {
 
         document.querySelector('.waiting-container').style.display = 'none';
         document.getElementById('game-ui').style.display = 'block';
-    }, 30000);
+    }, 3000);
 });
 
 socket.on("connect", () => {

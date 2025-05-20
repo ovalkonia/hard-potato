@@ -95,4 +95,21 @@ export class Model {
     async find() {
         return this.constructor.find_filter(this.get_strict_filter());
     }
+
+    async update(keys) {
+        try {
+            const set_clause = keys.map(key => `${key} = ?`).join(", ");
+            const values = keys.map(key => this[key]);
+
+            const statement = `UPDATE ${this.constructor.table} SET ${set_clause} WHERE id = ?`;
+
+            const connection = await mysql_pool.getConnection();
+            const prepare = await connection.prepare(statement);
+            const result = await prepare.execute([...values, this.id]);
+
+            return result;
+        } catch (error) {
+            throw ModelException.SERVER_ERROR;
+        }
+    }
 }

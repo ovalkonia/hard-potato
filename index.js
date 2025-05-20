@@ -1,6 +1,7 @@
 import express from "express";
 
 import auth_router from "./routes/auth.js";
+import profile_router from "./routes/profile.js";
 
 const app = express();
 const port = 8080;
@@ -20,13 +21,13 @@ app.get("/", (req, res) => {
 });
 
 //For testing -------------------------
-app.get("/tutorial", (req, res) => {
-    res.render("tutorial");
+app.get("profile/tutorial", (req, res) => {
+    res.render("profile/tutorial");
 });
 
-app.get("/profile/home", (req, res) => {
-    res.render("profile/home");
-});
+// app.get("/profile/home", (req, res) => {
+//     res.render("profile/home");
+// });
 
 app.get("/lobby/testgamepage", (req, res) => {
     res.render("lobby/testgamepage");
@@ -34,6 +35,7 @@ app.get("/lobby/testgamepage", (req, res) => {
 //--------------------------------------
 
 app.use(auth_router);
+app.use(profile_router);
 
 app.all("*any", (req, res) => {
     return res.render("404");
