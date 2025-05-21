@@ -12,6 +12,10 @@ profile_router.get("/tutorial", (req, res) => {
     });
 });
 
+profile_router.get("/roompage", (req, res) => {
+    res.render("lobby/roompage");
+});
+
 profile_router.post("/profile/avatar", profile_controller.update_avatar);
 
 profile_router.post("/profile/update-password", profile_controller.update_password);

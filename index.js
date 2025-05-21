@@ -26,10 +26,6 @@ app.get("profile/tutorial", (req, res) => {
     res.render("profile/tutorial");
 });
 
-// app.get("/profile/home", (req, res) => {
-//     res.render("profile/home");
-// });
-
 app.get("/lobby/testgamepage", (req, res) => {
     res.render("lobby/testgamepage");
 });
