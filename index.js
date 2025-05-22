@@ -1,9 +1,23 @@
+import { createServer } from "http";
+
 import express from "express";
 
-import auth_router from "./routes/auth.js";
+import socket_service from "./services/socket.js";
 
-const app = express();
+import socket_use from "./routes/socket.js";
+import auth_router from "./routes/auth.js";
+import room_router from "./routes/room.js";
+
 const port = 8080;
+const app = express();
+const http_server = createServer(app);
+const socket_server = socket_service.initialize(http_server, {
+    cors: {
+        origin: "*",
+    },
+});
+
+socket_use(socket_server);
 
 // Sets
 
@@ -30,6 +44,7 @@ app.get("/home", (req, res) => {
 //--------------------------------------
 
 app.use(auth_router);
+app.use(room_router);
 
 app.all("*any", (req, res) => {
     return res.render("404");
@@ -37,6 +52,6 @@ app.all("*any", (req, res) => {
 
 // Listen
 
-app.listen(port, () => {
+http_server.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
