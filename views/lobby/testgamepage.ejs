@@ -54,10 +54,10 @@
             <div class="card-hand">
                 <% deck.forEach(card => { %>
                     <div class="card-in-deck">
-                        <img class="unit-image" src="<%= card.image %>" alt="<%= card.name %>">
-                        <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> <%= card.attack %></div>
-                        <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> <%= card.defense %></div>
-                        <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> <%= card.cost %></div>
+                        <img class="unit-image" src="/images/avatars/<%= card_id %>.png" alt="<%= card_name %>">
+                        <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> <%= card_attack %></div>
+                        <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> <%= card_defense %></div>
+                        <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> <%= card_cost %></div>
                     </div>
                 <% }) %>
             </div>
@@ -82,6 +82,9 @@
         </div>
     </div>
 </body>
+<script>
+    const deck = <%-JSON.stringify(deck)%>;
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 <script type="module" src="/js/lobby/main.js"></script>
 </html>
