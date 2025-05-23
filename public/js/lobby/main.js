@@ -3,6 +3,12 @@ import { startDotAnimation, stopDotAnimation } from './waiting.js';
 import { showWaitingUI, hideWaitingUI, showGameUI, hideGameUI } from './waitingUI.js';
 
 const roomId = window.location.pathname.split('/').pop();
+const username = "<%= username %>";
+const avatar = "<%= avatar %>";
+const userId = "<%= userId %>";
+const email = "<%= email %>";
+const deck = JSON.parse('<%- JSON.stringify(deck) %>');
+
 const socket = io();
 
 startDotAnimation();
