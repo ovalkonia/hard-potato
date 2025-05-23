@@ -4,6 +4,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileModal = document.getElementById('profile-modal');
     const usernameHeading = document.querySelector('.user-info h2');
 
+    document.querySelectorAll('.avatar-gallery img').forEach(img => {
+        img.addEventListener('click', async () => {
+            const avatarId = parseInt(img.dataset.id);
+            const result = await updateProfile({ avatarId });
+
+            if (result.success) {
+                document.getElementById('user-avatar').src = `/images/avatars/${avatarId}.png`;
+                document.getElementById('avatar-modal').style.display = 'none';
+            } else {
+                alert('Failed to update avatar.');
+            }
+        });
+    });
+
     savePasswordBtn.addEventListener('click', async () => {
         const oldPassword = document.getElementById('old-password').value;
         const newPassword = document.getElementById('new-password').value;
@@ -13,25 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        try {
-            const response = await fetch('/profile/update-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    oldPassword,
-                    newPassword,
-                }),
-            });
+        const result = await updateProfile({ oldPassword, newPassword });
 
-
-            if (response.ok) {
-                console.log('Password updated successfully!');
-                profileModal.style.display = 'none';
-            } else {
-                console.log('Failed to update password.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
+        if (result.success) {
+            console.log('Password updated successfully!');
+            profileModal.style.display = 'none';
+        } else {
+            alert(result.message || 'Failed to update password.');
         }
     });
 
@@ -43,24 +45,29 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        try {
-            const response = await fetch('/profile/update-username', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    newUsername,
-                }),
-            });
+        const result = await updateProfile({ newUsername });
 
-            if (response.ok) {
-                console.log('Nickname updated successfully!');
-                usernameHeading.textContent = newUsername;
-                profileModal.style.display = 'none';
-            } else {
-                console.log('Failed to update nickname.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
+        if (result.success) {
+            usernameHeading.textContent = newUsername;
+            profileModal.style.display = 'none';
+        } else {
+            alert(result.message || 'Failed to update nickname.');
         }
     });
+
+    async function updateProfile(data) {
+        try {
+            const response = await fetch('/update/profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            return { success: response.ok, ...result };
+        } catch (error) {
+            console.error('Error:', error);
+            return { success: false, message: 'Server error' };
+        }
+    }
 });
