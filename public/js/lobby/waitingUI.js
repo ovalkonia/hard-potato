@@ -1,27 +1,27 @@
-export function setupStartButton(socket, waitingModule) {
-    const startButton = document.getElementById('start-game');
+// export function setupStartButton(socket, waitingModule) {
+//     const startButton = document.getElementById('start-game');
 
-    startButton.disabled = true;
-    startButton.classList.remove('enabled');
+//     startButton.disabled = true;
+//     startButton.classList.remove('enabled');
 
-    startButton.addEventListener('click', () => {
-        if (startButton.disabled) return;
+//     startButton.addEventListener('click', () => {
+//         if (startButton.disabled) return;
 
-        socket.emit('startGameRequest');
+//         socket.emit('startGameRequest');
 
-        if (waitingModule) {
-            waitingModule.stopDotAnimation();
-        }
+//         if (waitingModule) {
+//             waitingModule.stopDotAnimation();
+//         }
 
-        hideWaitingUI();
-        showGameUI();
-    });
+//         hideWaitingUI();
+//         showGameUI();
+//     });
 
-    socket.on('readyToStart', () => {
-        startButton.disabled = false;
-        startButton.classList.add('enabled');
-    });
-}
+//     socket.on('readyToStart', () => {
+//         startButton.disabled = false;
+//         startButton.classList.add('enabled');
+//     });
+// }   //REWRITE WITHOUT THE START BUTTON
 
 export function showWaitingUI() {
     document.querySelector('.waiting-container').style.display = 'flex';
