@@ -1,30 +1,16 @@
-// export function setupStartButton(socket, waitingModule) {
-//     const startButton = document.getElementById('start-game');
+export function showWaitingUI(roomId = null) {
+    const container = document.querySelector('.waiting-container');
+    container.style.display = 'flex';
 
-//     startButton.disabled = true;
-//     startButton.classList.remove('enabled');
+    if (roomId) {
+        const roomCodeEl = document.getElementById('room-code');
+        const copyBtn = document.getElementById('copy-button');
 
-//     startButton.addEventListener('click', () => {
-//         if (startButton.disabled) return;
-
-//         socket.emit('startGameRequest');
-
-//         if (waitingModule) {
-//             waitingModule.stopDotAnimation();
-//         }
-
-//         hideWaitingUI();
-//         showGameUI();
-//     });
-
-//     socket.on('readyToStart', () => {
-//         startButton.disabled = false;
-//         startButton.classList.add('enabled');
-//     });
-// }   //REWRITE WITHOUT THE START BUTTON
-
-export function showWaitingUI() {
-    document.querySelector('.waiting-container').style.display = 'flex';
+        roomCodeEl.textContent = roomId;
+        copyBtn.onclick = () => {
+            navigator.clipboard.writeText(roomId).then(() => alert('Room code copied!'));
+        };
+    }
 }
 
 export function hideWaitingUI() {
@@ -33,4 +19,8 @@ export function hideWaitingUI() {
 
 export function showGameUI() {
     document.getElementById('game-ui').style.display = 'block';
+}
+
+export function hideGameUI() {
+    document.getElementById('game-ui').style.display = 'none';
 }
