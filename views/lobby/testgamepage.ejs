@@ -54,10 +54,10 @@
             <div class="card-hand">
                 <% deck.forEach(card => { %>
                     <div class="card-in-deck">
-                        <img class="unit-image" src="/images/avatars/<%= card_id %>.png" alt="<%= card_name %>">
-                        <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> <%= card_attack %></div>
-                        <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> <%= card_defense %></div>
-                        <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> <%= card_cost %></div>
+                        <img class="unit-image" src="/images/avatars/<%= card.id %>.png" alt="<%= card.name %>">
+                        <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> <%= card.attack %></div>
+                        <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> <%= card.defense %></div>
+                        <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> <%= card.cost %></div>
                     </div>
                 <% }) %>
             </div>
