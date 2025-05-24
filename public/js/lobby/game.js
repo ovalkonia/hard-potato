@@ -5,6 +5,12 @@ function renderPlayerInfo(player) {
     const manaElem = document.querySelector('.hud.bottom .mana .value');
     healthElem.textContent = player.Health;
     manaElem.textContent = player.mana;
+    currentMana = player.mana;
+}
+
+function updateManaUI() {
+    const manaElem = document.querySelector('.hud.bottom .mana .value');
+    manaElem.textContent = currentMana;
 }
 
 function renderOponentInfo(opponent) {
@@ -66,14 +72,21 @@ function attachCardStatusListeners() {
 
 function toggleCardStatus(cardElement) {
     const currentStatus = cardElement.getAttribute('data-status');
-    const statusTextElem = cardElement.querySelector('.card-status');
+    const cardId = parseInt(cardElement.getAttribute('data-card-id'));
+    const cardData = deck.find(card => card.id === cardId);
 
     if (currentStatus === 'in-hand') {
-        cardElement.setAttribute('data-status', 'in-battlefield');
-        statusTextElem.textContent = 'Status: In Battlefield';
-    } else {
+        if (currentMana >= cardData.cost) {
+            currentMana -= cardData.cost;
+            cardElement.setAttribute('data-status', 'in-battlefield');
+            updateManaUI();
+        } else {
+            alert('Not enough sparks to use this card!');
+        }
+    } else if (currentStatus === 'in-battlefield') {
+        currentMana += cardData.cost;
         cardElement.setAttribute('data-status', 'in-hand');
-        statusTextElem.textContent = 'Status: In Hand';
+        updateManaUI();
     }
 }
 
@@ -94,7 +107,6 @@ function updateHand(player) {
             <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> ${cardData.attack}</div>
             <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> ${cardData.defense}</div>
             <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> ${cardData.cost}</div>
-            <div class="card-status">Status: In Hand</div>
         `;
         
         handContainer.appendChild(cardElement);
