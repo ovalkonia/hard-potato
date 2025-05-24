@@ -110,7 +110,7 @@ body {
     position: relative;
     width: 110px;
     height: 150px;
-    background: linear-gradient(135deg, rgba(58, 58, 58, 0.4), rgba(34, 34, 34, 0.4));
+    background: linear-gradient(135deg, #3a3a3a, #222);
     border: 2px solid #b8b8b8;
     border-radius: 16px;
     padding: 6px;
@@ -125,7 +125,6 @@ body {
     font-weight: bold;
     color: #fff;
     text-align: center;
-    backdrop-filter: blur(2px);
 }
 
 .card.my-card {

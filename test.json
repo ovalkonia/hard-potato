@@ -1,0 +1,41 @@
+{
+    "player": user_id,
+    "players": {
+        "user_id1": {
+            "Health": 30,
+            "mana": 5,
+            "hand": [card_id1, card_id2, ...],
+        },
+        "user_id2": {
+            "Health": 15,
+            "mana": 10,
+            "hand": [card_id1, card_id2, ...],
+        },
+    },
+    "battlefield": {
+        "user_id1": [card_id1, card_id2, ...],
+        "user_id2": [card_id1, card_id2, ...],
+    }
+    "deck": [
+        {
+            "id": card_id,
+            "name": "suberballs",
+            "attack": 3,
+            "defense": 2,
+            "cost": 2,
+            "image": "/images/cards/superballs.png",
+        }
+        {
+            "id": card_id,
+            "name": "megapenis",
+            "attack": 5,
+            "defense": 1,
+            "cost": 6,
+            "image": "/images/cards/megapenis.png",
+        }
+        card3,
+        card4,
+        card5,
+        ...
+    ],
+}
