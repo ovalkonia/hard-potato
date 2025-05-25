@@ -41,12 +41,7 @@ export default class MySQLModelAdapter {
         };
         const where = FilterBuilder.build(filter, MySQLFilterAdapter);
         const statement = `UPDATE ${this.table} SET ${set.sql} WHERE (${where.sql})`;
-        const result = await this.connection.execute(statement, [...set.values, ...where.values]);
-
-        console.log("LOGGING");
-        console.log("MySQLModelAdapter");
-        console.log("UPDATE_ALL_FILTER method");
-        console.log(result);
+        const [ result ] = await this.connection.execute(statement, [...set.values, ...where.values]);
 
         return result;
     }
@@ -58,12 +53,7 @@ export default class MySQLModelAdapter {
         };
         const where = FilterBuilder.build(filter, MySQLFilterAdapter);
         const statement = `UPDATE ${this.table} SET ${set.sql} WHERE (${where.sql}) LIMIT 1`;
-        const result = await this.connection.execute(statement, [...set.values, ...where.values]);
-
-        console.log("LOGGING");
-        console.log("MySQLModelAdapter");
-        console.log("UPDATE_ALL_FILTER method");
-        console.log(result);
+        const [ result ] = await this.connection.execute(statement, [...set.values, ...where.values]);
 
         return result;
     }
@@ -71,12 +61,7 @@ export default class MySQLModelAdapter {
     async delete_all_filter(filter) {
         const where = FilterBuilder.build(filter, MySQLFilterAdapter);
         const statement = `DELETE FROM ${this.table} WHERE (${where.sql})`;
-        const result = await this.connection.execute(statement, where.values);
-
-        console.log("LOGGING");
-        console.log("MySQLModelAdapter");
-        console.log("DELETE_ALL_FILTER method");
-        console.log(result);
+        const [ result ] = await this.connection.execute(statement, where.values);
 
         return result;
     }
@@ -84,12 +69,7 @@ export default class MySQLModelAdapter {
     async delete_first_filter(filter) {
         const where = FilterBuilder.build(filter, MySQLFilterAdapter);
         const statement = `DELETE FROM ${this.table} WHERE (${where.sql}) LIMIT 1`;
-        const result = await this.connection.execute(statement, where.values);
-
-        console.log("LOGGING");
-        console.log("MySQLModelAdapter");
-        console.log("DELETE_FIRST_FILTER method");
-        console.log(result);
+        const [ result ] = await this.connection.execute(statement, where.values);
 
         return result;
     }

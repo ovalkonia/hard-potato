@@ -1,9 +1,8 @@
+import mysql_pool from "../databases/mysql_pool.js";
 import UserSchema from "../schemas/UserSchema.js";
 import UserModel from "../models/UserModel.js";
-import MySQLModelAdapter from "../adapters/MySQLModelAdapter.js";
-import mysql_pool from "../databases/mysql_pool.js";
-import UserSchemaException from "../schemas/UserSchemaException.js";
 import UserModelException from "../models/UserModelException.js";
+import MySQLModelAdapter from "../adapters/MySQLModelAdapter.js";
 import FilterBuilder from "../utils/FilterBuilder.js";
 
 const auth_controller = {
@@ -31,7 +30,6 @@ const auth_controller = {
             res.json({
                 status: "Success!",
                 message: "Successfully logged in!",
-                data: lookup,
             });
         } catch (error) {
             return res.status(error.code).json(error.form_response());
@@ -77,7 +75,9 @@ const auth_controller = {
             res.json({
                 status: "Success!",
                 message: "Successfully registered!",
-                data: user,
+                data: {
+                    id: user.insertId,
+                },
             });
         } catch (error) {
             return res.status(error.code).json(error.form_response());
