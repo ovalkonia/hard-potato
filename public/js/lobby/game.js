@@ -126,6 +126,33 @@ function updateHand(player) {
     attachCardStatusListeners();
 }
 
+export function updateHealthTextures(players) {
+    const player = players[user_id];
+    const opponentId = Object.keys(players).find(id => id !== user_id);
+    const opponent = players[opponentId];
+
+    const updateTexture = (selector, healthValue) => {
+        const icon = document.querySelector(`${selector} .health .icon`);
+
+        let texture;
+        switch (true) {
+            case (healthValue > 20):
+                texture = 'fullhp.png';
+                break;
+            case (healthValue > 10):
+                texture = 'halfhp.png';
+                break;
+            default:
+                texture = 'lowhp.png';
+        }
+
+        icon.src = `/images/lobby/${texture}`;
+    };
+
+    updateTexture('.hud.bottom', player.Health);
+    updateTexture('.hud.top', opponent.Health);
+}
+
 export function renderGame(data) {
     const players = data.players;
 
