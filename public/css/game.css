@@ -239,3 +239,8 @@ body {
 #game-ui {
     display: none;
 }
+
+.card-in-deck.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}

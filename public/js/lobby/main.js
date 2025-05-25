@@ -1,7 +1,7 @@
 import { io } from "https://cdn.socket.io/4.8.1/socket.io.esm.min.js";
 import { startDotAnimation, stopDotAnimation } from './waiting.js';
 import { showWaitingUI, hideWaitingUI, showGameUI, hideGameUI } from './waitingUI.js';
-import { renderGame, getBattlefieldCardIds } from './game.js';
+import { renderGame, getBattlefieldCardIds, updateCardInteractivity } from './game.js';
 import { setGlobals } from './globals.js';
 
 const roomId = window.location.pathname.split('/').pop();
@@ -53,8 +53,9 @@ document.getElementById('end-turn').addEventListener('click', () => {
     });
 });
 
-// socket.on('end-turn', (data) => {
-//     const opponentId = Object.keys(data.players).find(id => id !== user_id);
-//     updateButtStatus(data.player === user_id);
-//     updateBattlefield(opponentId, data.battlefield);
-// });
+socket.on('end-turn', (data) => {
+    const opponentId = Object.keys(data.players).find(id => id !== user_id);
+    updateButtStatus(data.player === user_id);
+    updateBattlefield(opponentId, data.battlefield);
+    updateCardInteractivity(data.player === user_id);
+});

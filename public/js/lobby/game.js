@@ -90,6 +90,17 @@ function toggleCardStatus(cardElement) {
     }
 }
 
+export function updateCardInteractivity(isPlayerTurn) {
+    const cards = document.querySelectorAll('.card-hand .card-in-deck');
+    cards.forEach(card => {
+        if (isPlayerTurn) {
+            card.classList.remove('disabled');
+        } else {
+            card.classList.add('disabled');
+        }
+    });
+}
+
 function updateHand(player) {
     const handContainer = document.querySelector('.card-hand');
     handContainer.innerHTML = '';
@@ -123,6 +134,7 @@ export function renderGame(data) {
     renderOponentInfo(players[opponentId]);
     updateButtStatus(data.player === user_id);
     updateHand(players[user_id]);
+    updateCardInteractivity(data.player === user_id);
     updateBattlefield(opponentId, data.battlefield);
 }
 
