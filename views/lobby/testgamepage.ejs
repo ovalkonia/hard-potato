@@ -77,7 +77,21 @@
                 <img src="/images/lobby/cost.png" alt="mana" class="icon">
                 <div class="value">10</div>
             </div>
-            <div class="timer" id="turn-timer">30</div>
+            <div id="turn-timer">
+                <svg id="turn-timer-svg" width="60" height="60">
+                    <circle id="turn-timer-circle"
+                    cx="30"
+                    cy="30"
+                    r="26"
+                    stroke="limegreen"
+                    stroke-width="4"
+                    fill="none"
+                    stroke-dasharray="163.36"
+                    stroke-dashoffset="0"
+                    ></circle>
+                </svg>
+                <div id="turn-timer-label">30</div>
+            </div>
             <button id="end-turn">End Turn</button>
         </div>
     </div>
