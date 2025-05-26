@@ -165,3 +165,70 @@ export function moveEnemyCard(targetSlotEl, cardData) {
         }
     });
 }
+
+export function moveMyCard(cardEl, targetSlotEl) {
+    const cardRect = cardEl.getBoundingClientRect();
+    const slotRect = targetSlotEl.getBoundingClientRect();
+
+    const cardContent = cardEl.innerHTML;
+    const clone = document.createElement('div');
+    clone.innerHTML = cardContent;
+
+    Object.assign(clone.style, {
+        position: 'fixed',
+        left: `${cardRect.left}px`,
+        top: `${cardRect.top}px`,
+        width: `${cardRect.width}px`,
+        height: `${cardRect.height}px`,
+        margin: '0',
+        zIndex: '9999',
+        pointerEvents: 'none',
+        background: 'linear-gradient(135deg, #3a3a3a, #222)',
+        border: '2px solid #b8b8b8',
+        borderRadius: '16px',
+        padding: '6px',
+        boxShadow: '0 0 12px rgba(255, 255, 255, 0.3), inset 0 0 8px rgba(0, 255, 204, 0.1)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'hidden',
+        flexDirection: 'column',
+        transformOrigin: 'center center'
+    });
+
+    document.body.appendChild(clone);
+
+    anime({
+        targets: clone,
+        left: `${slotRect.left}px`,
+        top: `${slotRect.top}px`,
+        scale: 1,
+        duration: 700,
+        easing: 'easeOutExpo',
+        complete: () => {
+            clone.remove();
+
+            targetSlotEl.innerHTML = cardContent;
+
+            Object.assign(targetSlotEl.style, {
+                position: 'relative',
+                width: '110px',
+                height: '150px',
+                background: 'linear-gradient(135deg, #3a3a3a, #222)',
+                border: '2px solid #b8b8b8',
+                borderRadius: '16px',
+                padding: '6px',
+                boxShadow: '0 0 12px rgba(255, 255, 255, 0.3), inset 0 0 8px rgba(0, 255, 204, 0.1)',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                overflow: 'hidden',
+                transition: 'transform 0.25s ease, box-shadow 0.25s ease'
+            });
+
+            targetSlotEl.className = 'card my-card card-in-deck';
+
+            cardEl.remove();
+        }
+    });
+}
