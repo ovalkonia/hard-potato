@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import mysql from "mysql2/promise";
 
-const pool = mysql.createPool({
+const mysql_pool = mysql.createPool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     user: process.env.DB_USER,
@@ -13,4 +13,4 @@ const pool = mysql.createPool({
     },
 });
 
-export default pool;
+export default mysql_pool;
