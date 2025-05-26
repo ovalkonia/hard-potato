@@ -33,9 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (res.ok) {
                 showPopupMessage(responseData.message || "Login successful!");
-                setTimeout(() => {
-                    window.location.href = '/playerhome';
-                }, 1500);
             } else {
                 showPopupMessage(responseData.message || "Login failed!", 4000);
             }
