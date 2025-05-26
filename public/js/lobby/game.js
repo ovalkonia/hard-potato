@@ -1,26 +1,37 @@
 import { deck, user_id } from './globals.js';
+import{ animateNumberChange } from './animations.js';
 
 function renderPlayerInfo(player) {
     const healthElem = document.querySelector('.hud.bottom .health .value');
     const manaElem = document.querySelector('.hud.bottom .mana .value');
-    healthElem.textContent = player.Health;
-    manaElem.textContent = player.mana;
+
+    const currentHealth = parseInt(healthElem.textContent) || 0;
+    const currentManaValue = parseInt(manaElem.textContent) || 0;
+
+    animateNumberChange(healthElem, currentHealth, player.Health);
+    animateNumberChange(manaElem, currentManaValue, player.mana);
+
     currentMana = player.mana;
 }
 
 function updateManaUI() {
     const manaElem = document.querySelector('.hud.bottom .mana .value');
-    manaElem.textContent = currentMana;
+    const currentValue = parseInt(manaElem.textContent) || 0;
+    animateNumberChange(manaElem, currentValue, currentMana);
 }
 
-function renderOponentInfo(opponent) {
+function renderOpponentNameAndAvatar(opponent) {
     const nicknameElem = document.querySelector('.hud.top .nickname');
     const avatarElem = document.querySelector('.hud.top .avatar');
-    const healthElem = document.querySelector('.hud.top .health .value');
 
     nicknameElem.textContent = opponent.name;
     avatarElem.src = `/images/avatars/${opponent.avatar}.png`;
-    healthElem.textContent = opponent.Health;
+}
+
+function renderOpponentHealth(opponent) {
+    const healthElem = document.querySelector('.hud.top .health .value');
+    const currentHealth = parseInt(healthElem.textContent) || 0;
+    animateNumberChange(healthElem, currentHealth, opponent.Health);
 }
 
 function updateButtStatus(isPlayerTurn) {
@@ -74,6 +85,13 @@ function toggleCardStatus(cardElement) {
     const currentStatus = cardElement.getAttribute('data-status');
     const cardId = parseInt(cardElement.getAttribute('data-card-id'));
     const cardData = deck.find(card => card.id === cardId);
+
+    if (currentStatus === 'in-hand') {
+        const battlefieldCards = document.querySelectorAll('.card-hand .card-in-deck[data-status="in-battlefield"]');
+        if (battlefieldCards.length === 5) {
+            return;
+        }
+    }
 
     if (currentStatus === 'in-hand') {
         if (currentMana >= cardData.cost) {
