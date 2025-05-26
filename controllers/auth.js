@@ -16,7 +16,7 @@ const auth_controller = {
 
         try {
             const user_schema = new UserSchema({
-                username: req.body.email,
+                username: req.body.username,
                 password: req.body.password,
             });
             user_schema.validate_username();
@@ -83,6 +83,11 @@ const auth_controller = {
         } finally {
             if (connection) connection.release();
         }
+    },
+
+    post_logout: async (req, res) => {
+        await req.session.destroy();
+        res.redirect("/auth/login");
     },
 };
 

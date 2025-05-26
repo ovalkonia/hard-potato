@@ -8,16 +8,21 @@ export default class BaseSchemaException extends Error {
     static get OUT_OF_RANGE() { return new this(1, 400); }
 
     constructor(value, code) {
-        super(BaseSchemaException.errors[value]);
+        super();
 
+        this.value = value;
         this.code = code;
+    }
+
+    toString() {
+        return this.constructor.errors[this.value];
     }
 
     form_response() {
         return {
             status: "Fail!",
             type: "Schema error",
-            message: this.message,
+            message: this.toString(),
             code: this.code,
         };
     }

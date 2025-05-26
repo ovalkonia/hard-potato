@@ -14,20 +14,3 @@ document.getElementById('logout-button').addEventListener('click', async () => {
         console.error('Error:', error);
     }
 });
-
-document.getElementById('play-button').addEventListener('click', async () => {
-    try {
-        const res = await fetch('/lobby/gamepage', {
-            method: 'GET',
-            credentials: 'include'
-        });
-
-        if (res.ok) {
-            window.location.href = '/lobby/gamepage';
-        } else {
-            console.log('Failed to start a game.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-});
