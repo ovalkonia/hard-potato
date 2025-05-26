@@ -1,9 +1,9 @@
 body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(180deg, #0d2b45, #1b1f3a);
+    background: linear-gradient(180deg, #3f6c08, #113102);
     font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', cursive;
-    color: #fff;
+    color: #264d00;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -11,46 +11,48 @@ body {
     justify-content: center;
     height: 100vh;
     overflow: hidden;
+    background-size: cover;
+    background-position: center;
 }
 
 h1 {
     font-size: 6rem;
     margin: 0;
-    color: #ffe83d;
-    text-shadow: 3px 3px #000, -3px -3px #000;
+    color: #fff93d;
+    text-shadow: 3px 3px #2e7d32, -3px -3px #2e7d32;
 }
 
 h2 {
     font-size: 2rem;
     margin-top: 10px;
-    color: #90ee90;
-    text-shadow: 2px 2px #000;
+    color: #f1ffe7;
+    text-shadow: 2px 2px #33691e;
 }
 
 img.character {
-    width: 220px;
-    margin: 30px 0 10px;
+    width: 240px;
+    margin: 30px 0 20px;
     animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+    50% { transform: translateY(-12px); }
 }
 
 .button {
     display: inline-block;
-    margin-top: 20px;
-    padding: 12px 24px;
-    background: #38c770;
-    color: #fff;
+    margin-top: 10px;
+    padding: 12px 26px;
+    background: #81c784;
+    color: #1b5e20;
     font-size: 1.2rem;
     text-decoration: none;
-    border-radius: 12px;
-    box-shadow: 0 4px #2d8c52;
-    transition: background 0.3s;
+    border-radius: 16px;
+    box-shadow: 0 4px #4caf50;
+    transition: background 0.3s ease;
 }
 
 .button:hover {
-    background: #2da45f;
+    background: #66bb6a;
 }
