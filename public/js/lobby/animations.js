@@ -105,3 +105,63 @@ export function animateNumberChange(elem, start, end, duration = 500) {
 
     requestAnimationFrame(update);
 }
+
+function createCardHTML(cardData) {
+    return `
+        <img class="unit-image" src="/images/avatars/${cardData.id}.png" alt="${cardData.name}">
+        <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> ${cardData.attack}</div>
+        <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> ${cardData.defense}</div>
+        <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> ${cardData.cost}</div>
+    `;
+}
+
+function applyCardStyles(el) {
+    Object.assign(el.style, {
+        background: "linear-gradient(135deg, #3a3a3a, #222)",
+        border: "2px solid #ff4444",
+        borderRadius: "16px",
+        padding: "6px",
+        boxShadow: `0 0 12px rgba(255, 0, 0, 0.4),
+                    inset 0 0 8px rgba(255, 0, 0, 0.2)`,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden"
+    });
+}
+
+export function moveEnemyCard(targetSlotEl, cardData) {
+    const animCard = document.createElement("div");
+    animCard.classList.add("card", "enemy-card");
+
+    animCard.innerHTML = createCardHTML(cardData);
+    applyCardStyles(animCard);
+
+    const slotRect = targetSlotEl.getBoundingClientRect();
+    Object.assign(animCard.style, {
+        position: "absolute",
+        left: `${slotRect.left}px`,
+        top: `-200px`,
+        width: `${slotRect.width}px`,
+        height: `${slotRect.height}px`,
+        zIndex: 9999,
+        transform: "scale(1.4)",
+        pointerEvents: "none"
+    });
+
+    document.body.appendChild(animCard);
+
+    anime({
+        targets: animCard,
+        top: `${slotRect.top}px`,
+        scale: 1,
+        easing: "easeOutBack",
+        duration: 800,
+        complete: () => {
+        animCard.remove();
+        targetSlotEl.innerHTML = createCardHTML(cardData);
+        applyCardStyles(targetSlotEl);
+        targetSlotEl.classList.add("card", "enemy-card");
+        }
+    });
+}

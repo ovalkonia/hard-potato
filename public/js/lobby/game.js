@@ -43,31 +43,13 @@ function updateBattlefield(opponentId, battlefield) {
     const enemyCards = battlefield[opponentId];
     const enemySlots = document.querySelectorAll('.player2-cards .card');
 
-    enemySlots.forEach(slot => {
-        slot.innerHTML = '';
-    });
+    enemySlots.forEach(slot => slot.innerHTML = '');
 
     enemyCards.forEach((cardId, index) => {
         const cardData = deck.find(card => card.id === cardId);
         if (!cardData || index >= enemySlots.length) return;
 
-        const cardHtml = `
-            <img class="unit-image" src="/images/avatars/${cardData.id}.png" alt="${cardData.name}">
-            <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> ${cardData.attack}</div>
-            <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> ${cardData.defense}</div>
-            <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> ${cardData.cost}</div>
-        `;
-
-        // const cardHtml = `
-        //     <div class="card-in-deck">
-        //         <img class="unit-image" src="/images/avatars/${cardData.id}.png" alt="${cardData.name}">
-        //         <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> ${cardData.attack}</div>
-        //         <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> ${cardData.defense}</div>
-        //         <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> ${cardData.cost}</div>
-        //     </div>
-        // `;
-
-        enemySlots[index].innerHTML = cardHtml;
+        moveEnemyCard(enemySlots[index], cardData);
     });
 }
 
