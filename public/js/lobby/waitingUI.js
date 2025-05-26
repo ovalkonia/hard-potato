@@ -18,7 +18,7 @@ export function hideWaitingUI() {
 }
 
 export function showGameUI() {
-    document.getElementById('game-ui').style.display = 'block';
+    document.getElementById('game-ui').style.display = 'flex';
 }
 
 export function hideGameUI() {
