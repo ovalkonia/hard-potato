@@ -34,7 +34,7 @@ export default class MySQLModelAdapter {
         return result ?? null;
     }
 
-    async update_all_filter(changes, filter) {
+    async update_all_filter(changes, filter = FilterBuilder.where("1", "=", 1)) {
         const set = {
             sql: Object.keys(changes).map(key => `${key} = ?`).join(", "),
             values: Object.values(changes),
@@ -46,7 +46,7 @@ export default class MySQLModelAdapter {
         return result;
     }
 
-    async update_first_filter(changes, filter) {
+    async update_first_filter(changes, filter = FilterBuilder.where("1", "=", 1)) {
         const set = {
             sql: Object.keys(changes).map(key => `${key} = ?`).join(", "),
             values: Object.values(changes),
@@ -58,7 +58,7 @@ export default class MySQLModelAdapter {
         return result;
     }
 
-    async delete_all_filter(filter) {
+    async delete_all_filter(filter = FilterBuilder.where("1", "=", 1)) {
         const where = FilterBuilder.build(filter, MySQLFilterAdapter);
         const statement = `DELETE FROM ${this.table} WHERE (${where.sql})`;
         const [ result ] = await this.connection.execute(statement, where.values);
@@ -66,7 +66,7 @@ export default class MySQLModelAdapter {
         return result;
     }
 
-    async delete_first_filter(filter) {
+    async delete_first_filter(filter = FilterBuilder.where("1", "=", 1)) {
         const where = FilterBuilder.build(filter, MySQLFilterAdapter);
         const statement = `DELETE FROM ${this.table} WHERE (${where.sql}) LIMIT 1`;
         const [ result ] = await this.connection.execute(statement, where.values);

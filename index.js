@@ -2,6 +2,7 @@ import { createServer } from "http";
 
 import express from "express";
 
+import express_session from "./services/express_session.js";
 import socket_service from "./services/socket.js";
 
 import socket_use from "./routes/socket.js";
@@ -28,6 +29,7 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(express_session);
 
 app.get("/", (req, res) => {
     return res.render("index");

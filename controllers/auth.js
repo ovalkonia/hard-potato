@@ -27,6 +27,7 @@ const auth_controller = {
             const lookup = await new UserModel(user_schema, model_adapter).get_first();
             if (!lookup) throw UserModelException.INVALID_CREDENTIALS;
 
+            req.session.user = lookup;
             res.json({
                 status: "Success!",
                 message: "Successfully logged in!",
@@ -44,7 +45,7 @@ const auth_controller = {
         });
     },
     post_register: async (req, res) => {
-        let connection = await mysql_pool.getConnection();;
+        let connection = await mysql_pool.getConnection();
 
         try {
             const user_schema = new UserSchema({
