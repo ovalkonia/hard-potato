@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 showPopupMessage(responseData.message || "Registration successful!");
                 setTimeout(() => {
                     const encodedUsername = encodeURIComponent(data.username);
-                    window.location.href = `/auth/login?username=${encodedUsername}`;
+                    window.location.href = `/auth/login/${encodedUsername}`;
                 }, 1500);
             } else {
                 showPopupMessage(responseData.message || "Registration failed.", 4000);
