@@ -8,7 +8,7 @@ import FilterBuilder from "../utils/FilterBuilder.js";
 const auth_controller = {
     get_login: (req, res) => {
         return res.render("auth/login", {
-            email: req.params.username,
+            username: req.params.username,
         });
     },
     post_login: async (req, res) => {
@@ -40,9 +40,7 @@ const auth_controller = {
     },
 
     get_register: (req, res) => {
-        return res.render("auth/register", {
-            email: req.params.username,
-        });
+        return res.render("auth/register");
     },
     post_register: async (req, res) => {
         let connection = await mysql_pool.getConnection();
