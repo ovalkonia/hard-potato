@@ -10,4 +10,6 @@ auth_router.post("/auth/login", auth_controller.post_login);
 auth_router.get("/auth/register", auth_controller.get_register);
 auth_router.post("/auth/register", auth_controller.post_register);
 
+auth_router.post("/auth/logout", auth_controller.post_logout);
+
 export default auth_router;

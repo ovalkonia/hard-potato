@@ -6,11 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.avatar-gallery img').forEach(img => {
         img.addEventListener('click', async () => {
-            const avatarId = parseInt(img.dataset.id);
-            const result = await updateProfile({ avatarId });
+            const avatar_id = parseInt(img.dataset.id);
+            const result = await updateProfile({ avatar_id });
 
             if (result.success) {
-                document.getElementById('user-avatar').src = `/images/avatars/${avatarId}.png`;
+                document.getElementById('user-avatar').src = `/images/avatars/${avatar_id}.png`;
                 document.getElementById('avatar-modal').style.display = 'none';
             } else {
                 alert('Failed to update avatar.');
@@ -19,15 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     savePasswordBtn.addEventListener('click', async () => {
-        const oldPassword = document.getElementById('old-password').value;
-        const newPassword = document.getElementById('new-password').value;
+        const old_password = document.getElementById('old-password').value;
+        const password = document.getElementById('new-password').value;
 
-        if (!oldPassword || !newPassword) {
+        if (!old_password || !password) {
             alert('Please fill in both password fields.');
             return;
         }
 
-        const result = await updateProfile({ oldPassword, newPassword });
+        const result = await updateProfile({ old_password, password });
 
         if (result.success) {
             console.log('Password updated successfully!');
@@ -38,17 +38,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     saveNicknameBtn.addEventListener('click', async () => {
-        const newUsername = document.getElementById('new-nickname').value;
+        const username = document.getElementById('new-nickname').value;
 
-        if (!newUsername) {
+        if (!username) {
             alert('Please enter a new nickname.');
             return;
         }
 
-        const result = await updateProfile({ newUsername });
+        const result = await updateProfile({ username });
 
         if (result.success) {
-            usernameHeading.textContent = newUsername;
+            usernameHeading.textContent = username;
             profileModal.style.display = 'none';
         } else {
             alert(result.message || 'Failed to update nickname.');
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function updateProfile(data) {
         try {
-            const response = await fetch('/update/profile', {
+            const response = await fetch('/profile/self', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)

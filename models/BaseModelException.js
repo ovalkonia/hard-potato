@@ -14,16 +14,21 @@ export default class BaseModelException extends Error {
     static get TIMEOUT() { return new this(4, 503); }
 
     constructor(value, code) {
-        super(BaseModelException.errors[value]);
+        super();
 
+        this.value = value;
         this.code = code;
+    }
+
+    toString() {
+        return this.constructor.errors[this.value];
     }
 
     form_response() {
         return {
             status: "Fail!",
             type: "Model error",
-            message: this.message,
+            message: this.toString(),
             code: this.code,
         };
     }

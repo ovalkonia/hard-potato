@@ -1,4 +1,6 @@
-export default class UserModelException extends Error {
+import BaseModelException from "./BaseModelException.js";
+
+export default class UserModelException extends BaseModelException {
     static errors = Object.freeze([
         "User not found",
         "Email already exists",
@@ -11,17 +13,11 @@ export default class UserModelException extends Error {
     static get DUPLICATE_USERNAME() { return new this(2, 409); }
     static get INVALID_CREDENTIALS() { return new this(3, 401); }
 
-    constructor(value, code) {
-        super(UserModelException.errors[value]);
-
-        this.code = code;
-    }
-
     form_response() {
         return {
             status: "Fail!",
             type: "User error",
-            message: this.message,
+            message: this.toString(),
             code: this.code,
         };
     }

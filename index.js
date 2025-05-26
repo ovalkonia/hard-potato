@@ -7,6 +7,7 @@ import socket_service from "./services/socket.js";
 
 import socket_use from "./routes/socket.js";
 import auth_router from "./routes/auth.js";
+import profile_router from "./routes/profile.js";
 import room_router from "./routes/room.js";
 
 const port = 8080;
@@ -35,17 +36,12 @@ app.get("/", (req, res) => {
     return res.render("index");
 });
 
-//For testing -------------------------
 app.get("/tutorial", (req, res) => {
-    res.render("tutorial");
+    return res.render("tutorial");
 });
-
-app.get("/home", (req, res) => {
-    res.render("home");
-});
-//--------------------------------------
 
 app.use(auth_router);
+app.use(profile_router);
 app.use(room_router);
 
 app.all("*any", (req, res) => {
