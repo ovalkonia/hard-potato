@@ -1,87 +1,63 @@
-import { User, UserException } from "../models/User.js";
+import mysql_pool from "../databases/mysql_pool.js";
+import UserSchema from "../schemas/UserSchema.js";
+import UserModel from "../models/UserModel.js";
+import MySQLModelAdapter from "../adapters/MySQLModelAdapter.js";
+import FilterBuilder from "../utils/FilterBuilder.js";
+import UserModelException from "../models/UserModelException.js";
 
 const profile_controller = {
-    get_home: (req, res) => {
-        // Тимчасово фейкові дані, треба буде витягувати з сесії або БД
-        return res.render("profile/playerhome", {
-            username: "PlayerName",
-            avatarUrl: "/images/avatars/greenshadow.png",
+    get_self: (req, res) => {
+        return res.render("profile/self", {
+            username: req.session.user.username,
+            avatar_id: req.session.user.avatar_id,
         });
     },
-    update_avatar: async (req, res) => {
+    post_self: async (req, res) => {
+        let connection = await mysql_pool.getConnection();;
+
         try {
-            const user = req.session.user;
-            if (!user) throw ModelException.UNAUTHORIZED;
+            if (req.body.password &&
+                req.body.old_password !== req.session.user.password) {
+                throw UserModelException.UNAUTHORIZED;
+            }
 
-            const { avatar } = req.body;
-            if (!avatar) throw ModelException.INCOMPLETE_DATA;
+            const model_adapter = new MySQLModelAdapter(connection, "users");
+            const user_schema = new UserSchema({
+                username: req.body.username,
+                password: req.body.password,
+                avatar_id: req.body.avatar_id,
+            });
+            if (user_schema.username) {
+                user_schema.validate_username();
+                const lookup = await UserModel.get_first_filter(
+                    model_adapter,
+                    FilterBuilder.where("username", "=", user_schema.username)
+                );
+                if (lookup) throw UserModelException.DUPLICATE_USERNAME;
+            }
+            if (user_schema.password) user_schema.validate_password();
+            if (user_schema.avatar_id) user_schema.validate_avatar_id();
 
-            const updated = new User({ id: user.id, avatar });
-            await updated.update(["avatar"]);
+            await UserModel.update_first_filter(
+                model_adapter,
+                user_schema.toJSON(),
+                FilterBuilder.where("id", "=", req.session.user.id)
+            );
 
+            Object.assign(req.session.user, user_schema.toJSON());
             res.json({
                 status: "Success!",
-                message: "Avatar updated!",
+                message: "Successfully updated profile!",
             });
         } catch (error) {
-            res.status(error.code).json(error.form_response());
+            return res.status(error.code).json(error.form_response());
+        } finally {
+            if (connection) connection.release();
         }
     },
-    update_password: async (req, res) => {
-        try {
-            const user = req.session.user;
-            if (!user) throw ModelException.UNAUTHORIZED;
 
-            const { password } = req.body;
-            const updated = new User({ id: user.id, password })
-                .validate_password();
-
-            await updated.update(["password"]);
-
-            res.json({
-                status: "Success!",
-                message: "Password updated!",
-            });
-        } catch (error) {
-            res.status(error.code).json(error.form_response());
-        }
-    },
-    update_username: async (req, res) => {
-        try {
-            const user = req.session.user;
-            if (!user) throw ModelException.UNAUTHORIZED;
-
-            const { username } = req.body;
-            const updated = new User({ id: user.id, username })
-                .validate_username();
-
-            await updated.update(["username"]);
-
-            res.json({
-                status: "Success!",
-                message: "Username updated!",
-            });
-        } catch (error) {
-            res.status(error.code).json(error.form_response());
-        }
-    },
-    post_logout: async (req, res) => {
-        try {
-            req.session.destroy(err => {
-                if (err) {
-                    const error = ModelException.SERVER_ERROR;
-                    return res.status(error.code).json(error.form_response());
-                }
-
-                res.clearCookie("connect.sid");
-                res.json({
-                    status: "Success!",
-                    message: "Logged out!",
-                });
-            });
-        } catch (error) {
-            res.status(error.code).json(error.form_response());
-        }
+    get_profile: (req, res) => {
+        return res.render("profile/profile");
     },
 };
 

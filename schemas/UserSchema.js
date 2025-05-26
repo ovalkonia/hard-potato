@@ -35,4 +35,12 @@ export default class UserSchema extends BaseSchema {
 
         return this;
     }
+
+    validate_avatar_id() {
+        // Actually validate this stuff and do
+        // throw UserSchemaException.INVALID_EMAIL;
+        // if needed
+
+        return this;
+    }
 }

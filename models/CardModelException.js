@@ -1,11 +1,7 @@
-export default class CardModelException extends Error {
+import BaseModelException from "./BaseModelException.js";
+
+export default class CardModelException extends BaseModelException {
     static errors = Object.freeze([
 
     ]);
-
-    constructor(value, code) {
-        super(CardModelException.errors[value]);
-
-        this.code = code;
-    }
 }
