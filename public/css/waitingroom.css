@@ -1,0 +1,49 @@
+.waiting-container {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    color: #fff;
+    font-size: 2rem;
+    text-shadow: 2px 2px #000;
+    text-align: center;
+}
+
+.message {
+    margin-bottom: 2.5rem;
+}
+
+.dot {
+    display: inline-block;
+    transform-origin: bottom;
+}
+
+.room-code-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+}
+
+.copy-button {
+    background-color: rgba(0, 204, 255, 0.8);
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 0 10px rgba(0, 204, 255, 0.6);
+}
+
+.copy-button:hover {
+    background-color: rgba(0, 204, 255, 1);
+    transform: scale(1.05);
+    box-shadow: 0 0 18px rgba(0, 204, 255, 0.9);
+}

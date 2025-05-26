@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/css/homePage.css">
+</head>
+<body>
+    <div class="home-container">
+        <div class="user-info">
+            <div class="avatar-wrapper">
+                <img class="avatar" id="user-avatar" src="/images/avatars/<%= avatar_id %>.png" alt="User avatar">
+                <div class="change-avatar-text">Change avatar</div>
+            </div>
+            <h2><%= username %></h2>
+        </div>
+        <div class="buttons">
+            <a href="/tutorial" class="main-button">Tutorial</a>
+            <a href="/roompage" class="main-button">Play</a>
+            <!-- <button id="play-button" class="main-button">Play</button> -->
+            <button id="logout-button" class="main-button">Log out</button>
+            <a class="profile-button">Profile and Security</a>
+        </div>
+    </div>
+    <div class="avatar-modal" id="avatar-modal">
+        <div class="avatar-modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h3>Choose your avatar</h3>
+            <div class="avatar-gallery">
+                <img src="/images/avatars/4.png" alt="avatar1" data-id="4">
+                <img src="/images/avatars/3.png" alt="avatar2" data-id="3">
+                <img src="/images/avatars/5.png" alt="avatar3" data-id="5">
+                <img src="/images/avatars/8.png" alt="avatar4" data-id="1">
+                <img src="/images/avatars/6.png" alt="avatar5" data-id="6">
+                <img src="/images/avatars/7.png" alt="avatar6" data-id="7">
+                <img src="/images/avatars/2.png" alt="avatar7" data-id="2">
+                <img src="/images/avatars/9.png" alt="avatar8" data-id="8">
+            </div>
+        </div>
+    </div>
+    <div class="profile-modal" id="profile-modal">
+        <div class="profile-modal-content">
+            <span class="close-profile-modal" id="close-profile-modal">&times;</span>
+            <h3>Profile and Security</h3>
+
+            <div class="modal-section">
+                <label>Change password</label>
+                <input type="password" id="old-password" placeholder="Old Password">
+                <input type="password" id="new-password" placeholder="New Password">
+                <button id="save-password" class="save-button">Save Password</button>
+            </div>
+
+            <div class="modal-section">
+                <label>Change nickname</label>
+                <input type="text" id="new-nickname" placeholder="New Nickname">
+                <button id="save-nickname" class="save-button">Save Nickname</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/js/profile/mainButt.js"></script>
+<script src="/js/profile/avatarModal.js"></script>
+<script src="/js/profile/profileUpdate.js"></script>
+<script src="/js/profile/profileModal.js"></script>
+</html>

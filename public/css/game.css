@@ -1,0 +1,296 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Comic Sans MS', sans-serif;
+    background: url('/images/backgrounds/playground.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+}
+
+.hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.hud.top {
+    border-bottom: 2px solid #333;
+}
+
+.hud.bottom {
+    border-top: 2px solid #333;
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+}
+
+.nickname {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.health, .mana {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 6px;
+}
+
+.value {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#end-turn {
+    padding: 6px 14px;
+    font-size: 16px;
+    background: #00cc66;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#end-turn:hover {
+    background: #00994d;
+}
+
+.battlefield {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cards-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.card {
+    position: relative;
+    width: 110px;
+    height: 150px;
+    background: linear-gradient(135deg, #3a3a3a, #222);
+    border: 2px solid #b8b8b8;
+    border-radius: 16px;
+    padding: 6px;
+    box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.3),
+        inset 0 0 8px rgba(0, 255, 204, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    backdrop-filter: blur(2px);
+}
+
+.card.my-card {
+    background: rgba(0, 255, 204, 0.15);
+    border-color: #00ffcc;
+    box-shadow:
+        0 0 12px rgba(0, 255, 204, 0.5),
+        inset 0 0 8px rgba(0, 255, 204, 0.3);
+}
+
+.card.enemy-card {
+    background: rgba(255, 50, 50, 0.15);
+    border-color: #ff4444;
+    box-shadow:
+        0 0 12px rgba(255, 0, 0, 0.4),
+        inset 0 0 8px rgba(255, 0, 0, 0.2);
+}
+
+.hand {
+    display: flex;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px 0;
+}
+
+.card-hand {
+    display: flex;
+    gap: 12px;
+}
+
+.card-in-deck {
+    position: relative;
+    width: 110px;
+    height: 150px;
+    background: linear-gradient(135deg, #3a3a3a, #222);
+    border: 2px solid #b8b8b8;
+    border-radius: 16px;
+    padding: 6px;
+    box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.3),
+        inset 0 0 8px rgba(0, 255, 204, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+}
+
+.card-in-deck:hover {
+    transform: scale(1.12);
+    cursor: pointer;
+    box-shadow:
+        0 0 20px rgba(255, 255, 255, 0.383),
+        inset 0 0 10px rgba(0, 255, 204, 0.4);
+}
+
+.unit-image {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #d1d1d1;
+}
+
+.stat {
+    position: absolute;
+    background: radial-gradient(circle at top left, #444, #000);
+    color: #00ffff;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 2px solid #00ffff;
+    transition: background 0.3s;
+}
+
+.stat img {
+    width: 14px;
+    height: 14px;
+}
+
+.stat.top-left {
+    top: 4px;
+    left: 4px;
+}
+
+.stat.top-right {
+    top: 4px;
+    right: 4px;
+}
+
+.stat.bottom-right {
+    bottom: 4px;
+    right: 4px;
+}
+
+#game-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#game-ui {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.card-in-deck.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    color: white;
+    font-size: 3rem;
+    font-family: 'Comic Sans MS', cursive;
+}
+
+.win-text, .lose-text {
+    z-index: 1001;
+    text-shadow: 2px 2px 5px #000;
+}
+
+.sparkle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: gold;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+}
+
+.flag {
+    position: absolute;
+    width: 80px;
+    top: 50%;
+}
+
+.flag-left { left: 10%; }
+.flag-right { right: 10%; transform: scaleX(-1); }
+
+#turn-timer {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+#turn-timer-svg {
+  transform: rotate(-90deg);
+}
+
+#turn-timer-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+}
