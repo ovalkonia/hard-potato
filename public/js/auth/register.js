@@ -1,17 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector('form');
+    const form = document.getElementById("register-form");
 
-    function showPopupMessage(message, duration = 1000) {
-        const popup = document.getElementById('message-popup');
+    function showPopupMessage(message, duration = 1500) {
+        const popup = document.getElementById("message-popup");
         popup.textContent = message;
-        popup.classList.remove('hidden');
-        popup.classList.add('show');
+        popup.classList.remove("hidden");
+        popup.classList.add("show");
 
         setTimeout(() => {
-            popup.classList.remove('show');
-            setTimeout(() => {
-                popup.classList.add('hidden');
-            }, 500);
+            popup.classList.remove("show");
+            setTimeout(() => popup.classList.add("hidden"), 500);
         }, duration);
     }
 
@@ -19,6 +17,15 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         const formData = new FormData(form);
+        const password = formData.get("password");
+        const cpassword = formData.get("cpassword");
+
+        if (password !== cpassword) {
+            showPopupMessage("Passwords do not match", 4000);
+            return;
+        }
+
+        formData.delete("cpassword");
         const data = Object.fromEntries(formData.entries());
 
         try {
@@ -31,17 +38,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const responseData = await res.json();
 
             if (res.ok) {
-                showPopupMessage(responseData.message);
+                showPopupMessage(responseData.message || "Registration successful!");
                 setTimeout(() => {
-                    window.location.href = '/auth/login';
+                    const encodedUsername = encodeURIComponent(data.username);
+                    window.location.href = `/auth/login?username=${encodedUsername}`;
                 }, 1500);
             } else {
-                showMessage(responseData.message || "Something went wrong.", true);
+                showPopupMessage(responseData.message || "Registration failed.", 4000);
             }
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('Error:', error);
-            showPopupMessage("Server error. Please try again.", 4000);
+            showPopupMessage("Server error. Please try again later.", 4000);
         }
     });
 });
