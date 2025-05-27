@@ -86,7 +86,6 @@ const socket_controller = {
         });
     },
     on_play: async (io, client, data) => {
-        console.log("AAAAAAAAAAAAAAAAAA");
         // Check if the session exists
 
         const user = client.request.session.user;
@@ -104,9 +103,6 @@ const socket_controller = {
         // Play cards
 
         rooms_pool.hand_play(room_id, user_id, data.battlefield);
-        rooms_pool.player_swap(room_id);
-
-        console.dir(rooms_pool, { depth: 4 });
 
         // Send updated battlefield
 
@@ -130,7 +126,10 @@ const socket_controller = {
 
         // Check if it's battle time
 
-        if (!rooms_pool.battlefield_full(room_id)) return;
+        if (!rooms_pool.battlefield_full(room_id)) {
+            rooms_pool.player_swap(room_id);
+            return;
+        }
 
         rooms_pool.round_play(room_id);
         players_sockets.me.emit("round", {
