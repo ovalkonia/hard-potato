@@ -20,6 +20,8 @@ rooms_pool.round_play = (room_id) => {
     rooms_pool.mana_restore(room_id);
     rooms_pool.hands_add(room_id, 2);
     rooms_pool.player_swap(room_id);
+
+    rooms_pool[room_id].round++;
 };
 
 rooms_pool.player_randomize = (room_id) => {

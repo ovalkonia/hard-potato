@@ -94,9 +94,10 @@ socket.on('round', (data) => {
 
 socket.on('battlefield', (data) => {
     my_turn = !my_turn;
+
     const battlefield = data.battlefield;
 
-    updateBattlefield(battlefield);
+    if (my_turn) updateBattlefield(battlefield);
     updateButtStatus(my_turn);
     updateCardInteractivity(my_turn);
     if (my_turn) {
