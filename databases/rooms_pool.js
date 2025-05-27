@@ -6,6 +6,10 @@ import mysql_pool from './mysql_pool.js';
 
 const rooms_pool = {};
 
+rooms_pool.room_exists = async (room_id) => {
+    return rooms_pool[room_id] !== undefined;
+};
+
 rooms_pool.room_get_round = async (room_id) => {
     return rooms_pool[room_id].round;
 };
@@ -31,6 +35,10 @@ rooms_pool.players_get_private = async (room_id, player_id) => {
 
 rooms_pool.battlefield_get = async (room_id) => {
     return rooms_pool[room_id].battlefield;
+};
+
+rooms_pool.deck_get = async (room_id) => {
+    return rooms_pool[room_id].deck;
 };
 
 rooms_pool.room_create = async () => {
