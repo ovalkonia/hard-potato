@@ -91,11 +91,10 @@ export function showEndOverlay(type) {
 
 export function animateNumberChange(elem, start, end, duration = 500) {
     const startTime = performance.now();
-
     function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const value = Math.round(start + (end - start) * progress);
+        const value = Math.floor(start + (end - start) * progress);
         elem.textContent = value;
 
         if (progress < 1) {
@@ -226,7 +225,8 @@ export function moveMyCard(cardEl, targetSlotEl) {
                 transition: 'transform 0.25s ease, box-shadow 0.25s ease'
             });
 
-            targetSlotEl.className = 'card my-card card-in-deck';
+            targetSlotEl.classList.add('occupied');
+            // targetSlotEl.classList.add('card-in-deck');
 
             cardEl.remove();
         }
