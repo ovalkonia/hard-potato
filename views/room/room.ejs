@@ -27,7 +27,7 @@
                 </div>
                 <div class="health">
                     <img src="/images/lobby/fullhp.png" alt="heart" class="icon">
-                    <div class="value">30</div>
+                    <div class="value">0</div>
                 </div>
             </div>
 
@@ -93,7 +93,7 @@
 </body>
 <script>
     const deck = <%- JSON.stringify(deck) %>;
-    const user_id = <%- user_id %>;
+    const user_id = "<%- user_id %>";
     const roomId = "<%- room_id %>";
 </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>

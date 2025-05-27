@@ -6,16 +6,26 @@ import mysql_pool from './mysql_pool.js';
 
 const rooms_pool = {};
 
-rooms_pool.room_exists = async (room_id) => {
+rooms_pool.room_exists = (room_id) => {
     return rooms_pool[room_id] !== undefined;
 };
 
-rooms_pool.room_full = async (room_id) => {
+rooms_pool.room_full = (room_id) => {
     return Object.keys(rooms_pool[room_id].players).length >= 2;
 };
 
-rooms_pool.room_get_round = async (room_id) => {
-    return rooms_pool[room_id].round;
+rooms_pool.player_randomize = (room_id) => {
+    const player_ids = Object.keys(rooms_pool[room_id].players);
+
+    rooms_pool[room_id].player = player_ids[Math.floor(Math.random() * player_ids.length)];
+};
+
+rooms_pool.player_get = (room_id) => {
+    return rooms_pool[room_id].player;
+};
+
+rooms_pool.players_get_ids = (room_id) => {
+    return Object.keys(rooms_pool[room_id].players).map(id => Number(id));
 };
 
 rooms_pool.players_get_public = (room_id, player_id) => {
@@ -23,11 +33,10 @@ rooms_pool.players_get_public = (room_id, player_id) => {
 
     return {
         defense: player.defense,
-        mana: player.mana,
     };
 };
 
-rooms_pool.players_get_private = async (room_id, player_id) => {
+rooms_pool.players_get_private = (room_id, player_id) => {
     const player = rooms_pool[room_id].players[player_id];
 
     return {
@@ -37,11 +46,11 @@ rooms_pool.players_get_private = async (room_id, player_id) => {
     };
 };
 
-rooms_pool.battlefield_get = async (room_id) => {
+rooms_pool.battlefield_get = (room_id) => {
     return rooms_pool[room_id].battlefield;
 };
 
-rooms_pool.deck_get = async (room_id) => {
+rooms_pool.deck_get = (room_id) => {
     return rooms_pool[room_id].deck;
 };
 
@@ -49,7 +58,7 @@ rooms_pool.room_create = async () => {
     let connection = await mysql_pool.getConnection();
     const model_adapter = new MySQLModelAdapter(connection, "cards");
     const room = {
-        round: 0,
+        round: 1,
         player: null,
         players: {},
         battlefield: {},
@@ -63,40 +72,37 @@ rooms_pool.room_create = async () => {
     return id;
 };
 
-rooms_pool.players_add = async (room_id, player_id) => {
+rooms_pool.players_add = (room_id, player_id) => {
     const player = {
         defense: 30,
-        mana: 5,
+        mana: 0,
         hand: [],
     };
 
     rooms_pool[room_id].players[player_id] = player;
     rooms_pool[room_id].battlefield[player_id] = [];
+    rooms_pool.hand_add(room_id, player_id, 8);
 
     return player_id;
 };
 
-rooms_pool.player_randomize = async (room_id) => {
-    const player_ids = Object.keys(rooms_pool[room_id].players);
+rooms_pool.mana_restore = (room_id) => {
+    const round = rooms_pool[room_id].round;
+    const players_ids = Object.keys(rooms_pool[room_id].players);
+    const players = rooms_pool[room_id].players;
 
-    rooms_pool[room_id].player = player_ids[Math.floor(Math.random() * player_ids.length)];
+    players[players_ids[0]].mana = 2 + 2 * round;
+    players[players_ids[1]].mana = 2 + 2 * round;
 };
 
-rooms_pool.mana_restore = async (room_id, player_id) => {
-    const round = rooms_pool[room_id].round;
+rooms_pool.hand_add = (room_id, player_id, n) => {
+    const deck = rooms_pool[room_id].deck;
     const player = rooms_pool[room_id].players[player_id];
 
-    player.mana += 2 + 2 * round;
+    player.hand.push(...deck.toSorted(() => Math.random() - 0.5).map(card => card.id).slice(0, n));
 };
 
-rooms_pool.hand_fill = (room, player_id) => {
-    const deck = rooms_pool[room].deck;
-    const player = rooms_pool[room].players[player_id];
-
-    player.hand = deck.toSorted(() => Math.random() - 0.5).map(card => card.id).slice(0, 3);
-};
-
-rooms_pool.hand_play = async (room_id, player_id, card_ids) => {
+rooms_pool.hand_play = (room_id, player_id, card_ids) => {
     const deck = rooms_pool[room_id].deck;
     const player = rooms_pool[room_id].players[player_id];
     const hand = player.hand;
@@ -112,7 +118,7 @@ rooms_pool.hand_play = async (room_id, player_id, card_ids) => {
     }
 };
 
-rooms_pool.battle = async (room_id) => {
+rooms_pool.battle = (room_id) => {
     const player_ids = Object.keys(rooms_pool[room_id].players);
     const battlefield = rooms_pool[room_id].battlefield;
     const deck = rooms_pool[room_id].deck;
@@ -151,13 +157,13 @@ rooms_pool.battle = async (room_id) => {
     );
 };
 
-rooms_pool.battlefield_clear = async (room_id) => {
+rooms_pool.battlefield_clear = (room_id) => {
     const player_ids = Object.keys(rooms_pool[room_id].players);
     rooms_pool[room_id].battlefield[player_ids[0]] = [];
     rooms_pool[room_id].battlefield[player_ids[1]] = [];
 };
 
-rooms_pool.player_swap = async (room_id) => {
+rooms_pool.player_swap = (room_id) => {
     const room = rooms_pool[room_id];
     const players = Object.keys(rooms_pool[room_id].players);
 
