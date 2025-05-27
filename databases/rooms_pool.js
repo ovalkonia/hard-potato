@@ -10,6 +10,10 @@ rooms_pool.room_exists = async (room_id) => {
     return rooms_pool[room_id] !== undefined;
 };
 
+rooms_pool.room_full = async (room_id) => {
+    return Object.keys(rooms_pool[room_id].players).length >= 2;
+};
+
 rooms_pool.room_get_round = async (room_id) => {
     return rooms_pool[room_id].round;
 };
