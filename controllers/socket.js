@@ -37,6 +37,7 @@ const socket_controller = {
         }
 
         rooms_pool.players_add(room_id, user.id);
+        rooms_pool.player_randomize(room_id);
         client.join(room_id);
         user.room_id = room_id;
 
@@ -55,12 +56,14 @@ const socket_controller = {
 
         const players_sockets = await get_players_sockets(io, client, room_id);
         players_sockets.me.emit("start", {
+            player: rooms_pool.player_get(room_id),
             opponent: {
                 username: users.opponent.username,
                 avatar_id: users.opponent.avatar_id,
             },
         });
         players_sockets.opponent.emit("start", {
+            player: rooms_pool.player_get(room_id),
             opponent: {
                 username: users.me.username,
                 avatar_id: users.me.avatar_id,

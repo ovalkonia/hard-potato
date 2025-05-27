@@ -14,6 +14,16 @@ rooms_pool.room_full = (room_id) => {
     return Object.keys(rooms_pool[room_id].players).length >= 2;
 };
 
+rooms_pool.player_randomize = (room_id) => {
+    const player_ids = Object.keys(rooms_pool[room_id].players);
+
+    rooms_pool[room_id].player = player_ids[Math.floor(Math.random() * player_ids.length)];
+};
+
+rooms_pool.player_get = (room_id) => {
+    return rooms_pool[room_id].player;
+};
+
 rooms_pool.players_get_ids = (room_id) => {
     return Object.keys(rooms_pool[room_id].players).map(id => Number(id));
 };
@@ -76,11 +86,6 @@ rooms_pool.players_add = (room_id, player_id) => {
     return player_id;
 };
 
-rooms_pool.player_randomize = (room_id) => {
-    const player_ids = Object.keys(rooms_pool[room_id].players);
-
-    rooms_pool[room_id].player = player_ids[Math.floor(Math.random() * player_ids.length)];
-};
 
 rooms_pool.mana_restore = (room_id, player_id) => {
     const round = rooms_pool[room_id].round;
