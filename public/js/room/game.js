@@ -202,3 +202,17 @@ function findFreeBattlefieldSlot() {
     }
     return null;
 }
+
+export function showPopupMessage(message, duration = 1000) {
+    const popup = document.getElementById('message-popup');
+    popup.textContent = message;
+    popup.classList.remove('hidden');
+    popup.classList.add('show');
+
+    setTimeout(() => {
+        popup.classList.remove('show');
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 500);
+    }, duration);
+}
