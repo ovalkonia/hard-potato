@@ -61,7 +61,7 @@ socket.on('start', (data) => {
     if (my_turn) {
         showPopupMessage("It's your turn!", 2000);
     } else {
-        showPopupMessage(`Opponent's turn!}`, 2000);
+        showPopupMessage(`Opponent's turn!`, 2000);
     }
 });
 
