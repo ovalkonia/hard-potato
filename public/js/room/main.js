@@ -22,6 +22,9 @@ const socket = io();
 showWaitingUI(roomId);
 startDotAnimation();
 
+console.log(user_id);
+console.log(deck);
+
 socket.on("connect", () => {
     socket.emit('join', roomId);
 });
@@ -50,8 +53,10 @@ socket.on('start', (data) => {
     hideWaitingUI();
     showGameUI();
 
-    const opponent = data.opponent;
+    const opponentId = Object.keys(data)[0];
+    const opponent = data[opponentId];
     my_turn = user_id === data.player;
+    console.log("My turn:", my_turn);
     renderOpponentNameAndAvatar({
         name: opponent.username,
         avatar: opponent.avatar_id
@@ -67,10 +72,12 @@ document.getElementById('end-turn').addEventListener('click', () => {
 });
 
 socket.on('round', (data) => {
-    renderPlayerInfo(data.players.me);
-    renderOpponentHealth(data.players.opponent);
+    const opponentId = Object.keys(data.players).find(id => id !== user_id);
+    renderPlayerInfo(data.players[user_id]);
+    renderOpponentHealth(data.players[opponentId]);
     updateHealthTextures(data.players);
-    updateHand(data.players.me, my_turn);
+    console.log("My turn:", my_turn);
+    updateHand(data.players[user_id], my_turn);
     updateButtStatus(my_turn);
     if (my_turn) {
         startCircularTurnTimer(30, () => {
@@ -86,10 +93,11 @@ socket.on('round', (data) => {
 
 socket.on('battlefield', (data) => {
     my_turn = !my_turn;
-
+    console.log("My turn:", my_turn);
     const battlefield = data.battlefield;
+    const opponentId = Object.keys(battlefield).find(id => id !== user_id);
 
-    updateBattlefield(battlefield);
+    updateBattlefield(opponentId, battlefield);
     updateButtStatus(my_turn);
     updateCardInteractivity(my_turn);
 });

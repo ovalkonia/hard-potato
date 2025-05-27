@@ -109,7 +109,7 @@ export function updateHand(player, isPlayerTurn = false) {
         cardElement.setAttribute('data-card-id', cardData.id);
 
         cardElement.innerHTML = `
-            <img class="unit-image" src="/images/avatars/${cardData.id}.png" alt="${cardData.name}">
+            <img class="unit-image" src="/images/cards/${cardData.id}.png" alt="${cardData.name}">
             <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> ${cardData.attack}</div>
             <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> ${cardData.defense}</div>
             <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> ${cardData.cost}</div>
