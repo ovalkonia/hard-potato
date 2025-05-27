@@ -70,6 +70,7 @@ const socket_controller = {
             },
         });
 
+        rooms_pool.mana_restore(room_id);
         players_sockets.me.emit("round", {
             players: {
                 me: rooms_pool.players_get_private(room_id, users_ids.me),

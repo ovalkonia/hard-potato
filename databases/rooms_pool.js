@@ -58,7 +58,7 @@ rooms_pool.room_create = async () => {
     let connection = await mysql_pool.getConnection();
     const model_adapter = new MySQLModelAdapter(connection, "cards");
     const room = {
-        round: 0,
+        round: 1,
         player: null,
         players: {},
         battlefield: {},
@@ -86,12 +86,13 @@ rooms_pool.players_add = (room_id, player_id) => {
     return player_id;
 };
 
-
-rooms_pool.mana_restore = (room_id, player_id) => {
+rooms_pool.mana_restore = (room_id) => {
     const round = rooms_pool[room_id].round;
-    const player = rooms_pool[room_id].players[player_id];
+    const players_ids = Object.keys(rooms_pool[room_id].players);
+    const players = rooms_pool[room_id].players;
 
-    player.mana += 2 + 2 * round;
+    players[players_ids[0]].mana = 2 + 2 * round;
+    players[players_ids[1]].mana = 2 + 2 * round;
 };
 
 rooms_pool.hand_add = (room_id, player_id, n) => {
