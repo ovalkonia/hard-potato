@@ -16,11 +16,11 @@
             <button class="main-button" id="join-room">Join Room</button>
         </div>
 
-        <div id="join-form">
-            <input type="text" id="room-code" placeholder="Enter Room Code" class="join-input" />
-            <button class="main-button" id="submit-join">Submit</button>
-        </div>
+        <form id="join-form">
+            <input type="text" id="room-code" name="code" placeholder="Enter Room Code" class="join-input" required>
+            <button type="submit" class="main-button" id="submit-join">Join</button>
+        </form>
     </div>
-    <script src="/js/lobby/rooms.js"></script>
+    <script src="/js/room/rooms.js"></script>
 </body>
 </html>
