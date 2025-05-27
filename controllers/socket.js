@@ -30,18 +30,19 @@ const socket_controller = {
     },
     on_join: async (io, client, room_id) => {
         const user = client.request.session.user;
-        if (!user ||
-            !rooms_pool.room_exists(room_id) ||
+        if (!user) return;
+        if (!rooms_pool.room_exists(room_id) ||
             rooms_pool.room_full(room_id)) {
             return;
         }
 
         rooms_pool.players_add(room_id, user.id);
-        rooms_pool.player_randomize(room_id);
         client.join(room_id);
         user.room_id = room_id;
 
         if (!rooms_pool.room_full(room_id)) return;
+
+        rooms_pool.player_randomize(room_id);
 
         let connection = await mysql_pool.getConnection();
         const model_adapter = new MySQLModelAdapter(connection, "users");
@@ -84,16 +85,66 @@ const socket_controller = {
             },
         });
     },
-    on_play: (io, client, data) => {
-        const user = client.request.session.user;
-        const room_id = data.room_id;
+    on_play: async (io, client, data) => {
+        console.log("AAAAAAAAAAAAAAAAAA");
+        // Check if the session exists
 
-        // if (!user ||
-        //     !room_id ||
-        //     await rooms_pool.room_contains_player()
-        //     await rooms_pool.room_full(room_id)) {
-        //     return;
-        // }
+        const user = client.request.session.user;
+        if (!user) return;
+
+        // Check is it's user's turn
+
+        const user_id = user.id;
+        const room_id = user.room_id;
+        if (!rooms_pool.room_exists(room_id) ||
+            rooms_pool.player_get(room_id) !== String(user.id)) {
+            return;
+        }
+
+        // Play cards
+
+        rooms_pool.hand_play(room_id, user_id, data.battlefield);
+        rooms_pool.player_swap(room_id);
+
+        console.dir(rooms_pool, { depth: 4 });
+
+        // Send updated battlefield
+
+        const players_sockets = await get_players_sockets(io, client, room_id);
+        const users_ids = get_users_ids(io, client, room_id);
+
+        const battlefield = rooms_pool.battlefield_get(room_id);
+
+        players_sockets.me.emit("battlefield", {
+            battlefield: {
+                me: battlefield[users_ids.me],
+                opponent: battlefield[users_ids.opponent],
+            },
+        });
+        players_sockets.opponent.emit("battlefield", {
+            battlefield: {
+                me: battlefield[users_ids.opponent],
+                opponent: battlefield[users_ids.me],
+            },
+        });
+
+        // Check if it's battle time
+
+        if (!rooms_pool.battlefield_full(room_id)) return;
+
+        rooms_pool.round_play(room_id);
+        players_sockets.me.emit("round", {
+            players: {
+                me: rooms_pool.players_get_private(room_id, users_ids.me),
+                opponent: rooms_pool.players_get_public(room_id, users_ids.opponent),
+            },
+        });
+        players_sockets.opponent.emit("round", {
+            players: {
+                me: rooms_pool.players_get_private(room_id, users_ids.opponent),
+                opponent: rooms_pool.players_get_public(room_id, users_ids.me),
+            },
+        });
     },
     on_disconnect: (io, client) => {
         console.log(`Disconnected, ${client.id}`);
