@@ -194,9 +194,9 @@ export function getBattlefieldCardIds() {
 }
 
 function findFreeBattlefieldSlot() {
-    const slots = document.querySelectorAll('.battlefield-slot');
-    for (const slot of slots) {
-        if (!slot.hasChildNodes()) {
+    for (let i = 1; i <= 5; i++) {
+        const slot = document.querySelector(`.player1-cards [data-slot="${i}"]`);
+        if (!slot.classList.contains('occupied')) {
             return slot;
         }
     }
