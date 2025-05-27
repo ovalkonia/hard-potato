@@ -8,33 +8,86 @@
     <link rel="stylesheet" href="/css/tutorial.css">
 </head>
 <body>
-    <div class="tutorial-container">
-        <h2>PVZ Plant Card List</h2>
-        <table>
-            <tr>
-                <th>Image</th><th>Name</th><th>Cost</th><th>Attack</th><th>Defense</th>
-            </tr>
-            <tr><td><img src="/images/cards/11.png" alt="Peashooter" class="card-img"></td><td>Peashooter</td><td>4</td><td>3</td><td>5</td></tr>
-            <tr><td><img src="/images/cards/20.png" alt="Wall-nut" class="card-img"></td><td>Wall-nut</td><td>3</td><td>2</td><td>6</td></tr>
-            <tr><td><img src="/images/cards/3.png" alt="Cabbage-pult" class="card-img"></td><td>Cabbage-pult</td><td>5</td><td>5</td><td>3</td></tr>
-            <tr><td><img src="/images/cards/6.png" alt="Chilli Bean" class="card-img"></td><td>Chilli Bean</td><td>2</td><td>2</td><td>2</td></tr>
-            <tr><td><img src="/images/cards/2.png" alt="Bonk Choy" class="card-img"></td><td>Bonk Choy</td><td>6</td><td>6</td><td>4</td></tr>
-            <tr><td><img src="/images/cards/9.png" alt="Kernel-pult" class="card-img"></td><td>Kernel-pult</td><td>3</td><td>3</td><td>1</td></tr>
-            <tr><td><img src="/images/cards/17.png" alt="Sunflower" class="card-img"></td><td>Sunflower</td><td>4</td><td>2</td><td>5</td></tr>
-            <tr><td><img src="/images/cards/13.png" alt="Puff-shroom" class="card-img"></td><td>Puff-shroom</td><td>3</td><td>3</td><td>2</td></tr>
-            <tr><td><img src="/images/cards/15.png" alt="Snow Pea" class="card-img"></td><td>Snow Pea</td><td>2</td><td>2</td><td>3</td></tr>
-            <tr><td><img src="/images/cards/14.png" alt="Snapdragon" class="card-img"></td><td>Snapdragon</td><td>3</td><td>3</td><td>3</td></tr>
-            <tr><td><img src="/images/cards/12.png" alt="Potato Mine" class="card-img"></td><td>Potato Mine</td><td>1</td><td>1</td><td>1</td></tr>
-            <tr><td><img src="/images/cards/16.png" alt="Spikerock" class="card-img"></td><td>Spikerock</td><td>1</td><td>1</td><td>2</td></tr>
-            <tr><td><img src="/images/cards/19.png" alt="Threepeater" class="card-img"></td><td>Threepeater</td><td>3</td><td>3</td><td>2</td></tr>
-            <tr><td><img src="/images/cards/1.png" alt="Bloomerang" class="card-img"></td><td>Bloomerang</td><td>2</td><td>2</td><td>2</td></tr>
-            <tr><td><img src="/images/cards/18.png" alt="Tall-nut" class="card-img"></td><td>Tall-nut</td><td>3</td><td>1</td><td>6</td></tr>
-            <tr><td><img src="/images/cards/8.png" alt="Jalapeno" class="card-img"></td><td>Jalapeno</td><td>3</td><td>4</td><td>1</td></tr>
-            <tr><td><img src="/images/cards/10.png" alt="Magnet-shroom" class="card-img"></td><td>Magnet-shroom</td><td>4</td><td>3</td><td>4</td></tr>
-            <tr><td><img src="/images/cards/4.png" alt="Cactus" class="card-img"></td><td>Cactus</td><td>2</td><td>2</td><td>2</td></tr>
-            <tr><td><img src="/images/cards/7.png" alt="Fire Peashooter" class="card-img"></td><td>Fire Peashooter</td><td>4</td><td>4</td><td>2</td></tr>
-            <tr><td><img src="/images/cards/5.png" alt="Cherry Bomb" class="card-img"></td><td>Cherry Bomb</td><td>5</td><td>2</td><td>6</td></tr>
-        </table>
-    </div>
+    <main class="page-wrapper">
+        <h2>Game Rules & Tutorial</h2>
+        <div class="tutorial-container">
+            <div class="tutorial-section">
+                <h3>Game Overview</h3>
+                <p>Each player starts with <strong>30 HP</strong> 
+                    <img src="/images/lobby/fullhp.png" alt="HP Icon" class="icon"> and <strong>4 Sparks</strong> 
+                    <img src="/images/lobby/cost.png" alt="Sparks Icon" class="icon">.</p>
+                <ul>
+                    <li>Players begin with <strong>8 random cards</strong>.</li>
+                    <li>Each turn, the player gains <strong>2 more sparks</strong> than in the previous round.</li>
+                    <li>Each turn also adds <strong>1 random card</strong> to their hand.</li>
+                    <li>A random player is selected to go first.</li>
+                    <li>Turn order alternates each round.</li>
+                    <li>Each turn lasts <strong>30 seconds</strong> 
+                        <img src="/images/l/timer.png" alt="Timer Icon" class="icon">.</li>
+                    <li>Players can play up to <strong>5 cards per turn</strong>.</li>
+                    <li>The turn ends automatically after 30 seconds or when the player clicks "End Turn".</li>
+                </ul>
+            </div>
+
+            <div class="tutorial-section">
+                <h3>Combat Mechanics</h3>
+                <p>At the end of each round:</p>
+                <ul>
+                    <li>Total attack power of all cards is calculated.</li>
+                    <li>Total defense power of all cards is calculated.</li>
+                    <li>If the opponent’s attack exceeds your defense, the difference is subtracted from your HP.</li>
+                    <li>If your defense is equal or greater — no damage is taken.</li>
+                </ul>
+            </div>
+
+            <div class="tutorial-section">
+                <h3>HP Indicator Levels</h3>
+                <p>The HP bar changes appearance depending on your remaining health:</p>
+                <div class="hp-indicators">
+                    <div>
+                        <img src="/images/lobby/fullhp.png" alt="HP Full">
+                        <p>HP > 20</p>
+                    </div>
+                    <div>
+                        <img src="/images/lobby/halfhp.png" alt="HP Medium">
+                        <p>HP > 10</p>
+                    </div>
+                    <div>
+                        <img src="/images/lobby/lowhp.png" alt="HP Low">
+                        <p>HP ≤ 10</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2>PVZ Plant Card Tutorial</h2>
+        <div class="tutorial-container">
+            <h2>PVZ Plant Card List</h2>
+            <table>
+                <tr>
+                    <th>Image</th><th>Name</th><th>Cost</th><th>Attack</th><th>Defense</th>
+                </tr>
+                <tr><td><img src="/images/cards/11.png" alt="Peashooter" class="card-img"></td><td>Peashooter</td><td>4</td><td>3</td><td>5</td></tr>
+                <tr><td><img src="/images/cards/20.png" alt="Wall-nut" class="card-img"></td><td>Wall-nut</td><td>3</td><td>2</td><td>6</td></tr>
+                <tr><td><img src="/images/cards/3.png" alt="Cabbage-pult" class="card-img"></td><td>Cabbage-pult</td><td>5</td><td>5</td><td>3</td></tr>
+                <tr><td><img src="/images/cards/6.png" alt="Chilli Bean" class="card-img"></td><td>Chilli Bean</td><td>2</td><td>2</td><td>2</td></tr>
+                <tr><td><img src="/images/cards/2.png" alt="Bonk Choy" class="card-img"></td><td>Bonk Choy</td><td>6</td><td>6</td><td>4</td></tr>
+                <tr><td><img src="/images/cards/9.png" alt="Kernel-pult" class="card-img"></td><td>Kernel-pult</td><td>3</td><td>3</td><td>1</td></tr>
+                <tr><td><img src="/images/cards/17.png" alt="Sunflower" class="card-img"></td><td>Sunflower</td><td>4</td><td>2</td><td>5</td></tr>
+                <tr><td><img src="/images/cards/13.png" alt="Puff-shroom" class="card-img"></td><td>Puff-shroom</td><td>3</td><td>3</td><td>2</td></tr>
+                <tr><td><img src="/images/cards/15.png" alt="Snow Pea" class="card-img"></td><td>Snow Pea</td><td>2</td><td>2</td><td>3</td></tr>
+                <tr><td><img src="/images/cards/14.png" alt="Snapdragon" class="card-img"></td><td>Snapdragon</td><td>3</td><td>3</td><td>3</td></tr>
+                <tr><td><img src="/images/cards/12.png" alt="Potato Mine" class="card-img"></td><td>Potato Mine</td><td>1</td><td>1</td><td>1</td></tr>
+                <tr><td><img src="/images/cards/16.png" alt="Spikerock" class="card-img"></td><td>Spikerock</td><td>1</td><td>1</td><td>2</td></tr>
+                <tr><td><img src="/images/cards/19.png" alt="Threepeater" class="card-img"></td><td>Threepeater</td><td>3</td><td>3</td><td>2</td></tr>
+                <tr><td><img src="/images/cards/1.png" alt="Bloomerang" class="card-img"></td><td>Bloomerang</td><td>2</td><td>2</td><td>2</td></tr>
+                <tr><td><img src="/images/cards/18.png" alt="Tall-nut" class="card-img"></td><td>Tall-nut</td><td>3</td><td>1</td><td>6</td></tr>
+                <tr><td><img src="/images/cards/8.png" alt="Jalapeno" class="card-img"></td><td>Jalapeno</td><td>3</td><td>4</td><td>1</td></tr>
+                <tr><td><img src="/images/cards/10.png" alt="Magnet-shroom" class="card-img"></td><td>Magnet-shroom</td><td>4</td><td>3</td><td>4</td></tr>
+                <tr><td><img src="/images/cards/4.png" alt="Cactus" class="card-img"></td><td>Cactus</td><td>2</td><td>2</td><td>2</td></tr>
+                <tr><td><img src="/images/cards/7.png" alt="Fire Peashooter" class="card-img"></td><td>Fire Peashooter</td><td>4</td><td>4</td><td>2</td></tr>
+                <tr><td><img src="/images/cards/5.png" alt="Cherry Bomb" class="card-img"></td><td>Cherry Bomb</td><td>5</td><td>2</td><td>6</td></tr>
+            </table>
+        </div>
+    </main>
 </body>
 </html>

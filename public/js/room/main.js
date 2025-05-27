@@ -79,6 +79,7 @@ socket.on('round', (data) => {
     updateHealthTextures(data.players);
     updateHand(data.players.me, my_turn);
     updateButtStatus(my_turn);
+    showPopupMessage("A new round has begun", 2000);            //test popup
     if (my_turn) {
         startCircularTurnTimer(30, () => {
             const battlefieldCards = getBattlefieldCardIds();
