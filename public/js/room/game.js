@@ -128,7 +128,7 @@ export function updateHealthTextures(players) {
 
     const updateTexture = (selector, healthValue) => {
         const icon = document.querySelector(`${selector} .health .icon`);
-
+        console.log(`Updating texture for ${selector} with health value: ${healthValue}`);
         let texture;
         switch (true) {
             case (healthValue > 20):
@@ -144,8 +144,8 @@ export function updateHealthTextures(players) {
         icon.src = `/images/lobby/${texture}`;
     };
 
-    updateTexture('.hud.bottom', player.Health);
-    updateTexture('.hud.top', opponent.Health);
+    updateTexture('.hud.bottom', player.defense);
+    updateTexture('.hud.top', opponent.defense);
 }
 
 // export function renderGame(data) {
@@ -194,11 +194,25 @@ export function getBattlefieldCardIds() {
 }
 
 function findFreeBattlefieldSlot() {
-    const slots = document.querySelectorAll('.battlefield-slot');
-    for (const slot of slots) {
-        if (!slot.hasChildNodes()) {
+    for (let i = 1; i <= 5; i++) {
+        const slot = document.querySelector(`.player1-cards [data-slot="${i}"]`);
+        if (!slot.classList.contains('occupied')) {
             return slot;
         }
     }
     return null;
+}
+
+export function showPopupMessage(message, duration = 1000) {
+    const popup = document.getElementById('message-popup');
+    popup.textContent = message;
+    popup.classList.remove('hidden');
+    popup.classList.add('show');
+
+    setTimeout(() => {
+        popup.classList.remove('show');
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 500);
+    }, duration);
 }
