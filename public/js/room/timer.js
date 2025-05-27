@@ -9,14 +9,7 @@ export function startCircularTurnTimer(seconds = 30, onEnd = () => {}) {
 
     if (!circle || !label) return;
 
-    if (timerAnimation) {
-        timerAnimation.pause();
-        timerAnimation = null;
-    }
-    if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-    }
+    stopCircularTurnTimer();
 
     const radius = parseFloat(circle.getAttribute("r"));
     const totalLength = 2 * Math.PI * radius;
@@ -38,11 +31,32 @@ export function startCircularTurnTimer(seconds = 30, onEnd = () => {}) {
     timerInterval = setInterval(() => {
         t--;
         if (t >= 0) {
-        label.textContent = t;
+            label.textContent = t;
         }
         if (t <= 0) {
-        clearInterval(timerInterval);
-        timerInterval = null;
+            clearInterval(timerInterval);
+            timerInterval = null;
         }
     }, 1000);
+}
+
+export function stopCircularTurnTimer() {
+    if (timerAnimation) {
+        timerAnimation.pause();
+        timerAnimation = null;
+    }
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    // const circle = document.getElementById("turn-timer-circle");
+    // const label = document.getElementById("turn-timer-label");
+
+    // if (circle) {
+    //     circle.setAttribute("stroke-dashoffset", "0");
+    // }
+    // if (label) {
+    //     label.textContent = "";
+    // }
 }
