@@ -67,7 +67,7 @@ socket.on('start', (data) => {
 
 document.getElementById('end-turn').addEventListener('click', () => {
     const battlefieldCards = getBattlefieldCardIds();
-
+    console.log('Battlefield cards:', battlefieldCards);
     socket.emit('play', {
         battlefield: battlefieldCards
     });
@@ -79,7 +79,6 @@ socket.on('round', (data) => {
     updateHealthTextures(data.players);
     updateHand(data.players.me, my_turn);
     updateButtStatus(my_turn);
-    showPopupMessage("A new round has begun", 2000);            //test popup
     if (my_turn) {
         startCircularTurnTimer(30, () => {
             const battlefieldCards = getBattlefieldCardIds();
@@ -102,7 +101,7 @@ socket.on('battlefield', (data) => {
     if (my_turn) {
         showPopupMessage("It's your turn!", 2000);
     } else {
-        showPopupMessage(`Opponent's turn!`, 2000);
+        showPopupMessage("Opponent's turn!", 2000);
     }
 });
 

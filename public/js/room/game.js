@@ -69,13 +69,13 @@ function toggleCardStatus(cardElement) {
     const cardData = deck.find(card => card.id === cardId);
 
     if (currentMana < cardData.cost) {
-        alert('Not enough sparks to use this card!');
+        showPopupMessage('Not enough sparks to play this card!', 2000);
         return;
     }
 
     const targetSlot = findFreeBattlefieldSlot();
     if (!targetSlot) {
-        alert('No free slots on the battlefield!');
+        showPopupMessage('No free slots on the battlefield!', 2000);
         return;
     }
 
@@ -181,12 +181,9 @@ export function getBattlefieldCardIds() {
     const battlefieldCards = [];
 
     slots.forEach(slot => {
-        const card = slot.querySelector('[data-card-id]');
-        if (card) {
-            const cardId = card.getAttribute('data-card-id');
-            if (cardId) {
-                battlefieldCards.push(parseInt(cardId));
-            }
+        const cardId = slot.getAttribute('data-card-id');
+        if (cardId) {
+            battlefieldCards.push(parseInt(cardId));
         }
     });
 
@@ -194,8 +191,8 @@ export function getBattlefieldCardIds() {
 }
 
 function findFreeBattlefieldSlot() {
-    for (let i = 1; i <= 5; i++) {
-        const slot = document.querySelector(`.player1-cards [data-slot="${i}"]`);
+    const slots = document.querySelectorAll('.player1-cards .card');
+    for (const slot of slots) {
         if (!slot.classList.contains('occupied')) {
             return slot;
         }
