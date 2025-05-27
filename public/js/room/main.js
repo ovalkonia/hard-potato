@@ -67,7 +67,7 @@ document.getElementById('end-turn').addEventListener('click', () => {
 });
 
 socket.on('round', (data) => {
-    renderPlayerInfo(data.players.opponent);
+    renderPlayerInfo(data.players.me);
     renderOpponentHealth(data.players.opponent);
     updateHealthTextures(data.players);
     updateHand(data.players.me, my_turn);
