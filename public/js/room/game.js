@@ -1,15 +1,15 @@
-import{ animateNumberChange } from './animations.js';
+import{ animateNumberChange, moveMyCard } from './animations.js';
 
-let currentMana = 0;
-
-function renderPlayerInfo(player) {
+let currentMana = 4;
+s
+export function renderPlayerInfo(player) {
     const healthElem = document.querySelector('.hud.bottom .health .value');
     const manaElem = document.querySelector('.hud.bottom .mana .value');
 
     const currentHealth = parseInt(healthElem.textContent) || 0;
     const currentManaValue = parseInt(manaElem.textContent) || 0;
 
-    animateNumberChange(healthElem, currentHealth, player.Health);
+    animateNumberChange(healthElem, currentHealth, player.defense);
     animateNumberChange(manaElem, currentManaValue, player.mana);
 
     currentMana = player.mana;
@@ -21,7 +21,7 @@ function updateManaUI() {
     animateNumberChange(manaElem, currentValue, currentMana);
 }
 
-function renderOpponentNameAndAvatar(opponent) {
+export function renderOpponentNameAndAvatar(opponent) {
     const nicknameElem = document.querySelector('.hud.top .nickname');
     const avatarElem = document.querySelector('.hud.top .avatar');
 
@@ -29,13 +29,13 @@ function renderOpponentNameAndAvatar(opponent) {
     avatarElem.src = `/images/avatars/${opponent.avatar}.png`;
 }
 
-function renderOpponentHealth(opponent) {
+export function renderOpponentHealth(opponent) {
     const healthElem = document.querySelector('.hud.top .health .value');
     const currentHealth = parseInt(healthElem.textContent) || 0;
-    animateNumberChange(healthElem, currentHealth, opponent.Health);
+    animateNumberChange(healthElem, currentHealth, opponent.defense);
 }
 
-function updateButtStatus(isPlayerTurn) {
+export function updateButtStatus(isPlayerTurn) {
     const butt = document.getElementById('end-turn');
     butt.disabled = !isPlayerTurn;
 }
@@ -65,30 +65,24 @@ function attachCardStatusListeners() {
 }
 
 function toggleCardStatus(cardElement) {
-    const currentStatus = cardElement.getAttribute('data-status');
     const cardId = parseInt(cardElement.getAttribute('data-card-id'));
     const cardData = deck.find(card => card.id === cardId);
 
-    if (currentStatus === 'in-hand') {
-        const battlefieldCards = document.querySelectorAll('.card-hand .card-in-deck[data-status="in-battlefield"]');
-        if (battlefieldCards.length === 5) {
-            return;
-        }
+    if (currentMana < cardData.cost) {
+        alert('Not enough sparks to use this card!');
+        return;
     }
 
-    if (currentStatus === 'in-hand') {
-        if (currentMana >= cardData.cost) {
-            currentMana -= cardData.cost;
-            cardElement.setAttribute('data-status', 'in-battlefield');
-            updateManaUI();
-        } else {
-            alert('Not enough sparks to use this card!');
-        }
-    } else if (currentStatus === 'in-battlefield') {
-        currentMana += cardData.cost;
-        cardElement.setAttribute('data-status', 'in-hand');
-        updateManaUI();
+    const targetSlot = findFreeBattlefieldSlot();
+    if (!targetSlot) {
+        alert('No free slots on the battlefield!');
+        return;
     }
+
+    currentMana -= cardData.cost;
+    updateManaUI();
+
+    moveMyCard(cardElement, targetSlot);
 }
 
 export function updateCardInteractivity(isPlayerTurn) {
@@ -102,7 +96,7 @@ export function updateCardInteractivity(isPlayerTurn) {
     });
 }
 
-function updateHand(player) {
+export function updateHand(player, isPlayerTurn = false) {
     const handContainer = document.querySelector('.card-hand');
     handContainer.innerHTML = '';
 
@@ -125,6 +119,7 @@ function updateHand(player) {
     });
 
     attachCardStatusListeners();
+    updateCardInteractivity(isPlayerTurn);
 }
 
 export function updateHealthTextures(players) {
@@ -169,6 +164,20 @@ export function renderGame(data) {
     updateBattlefield(opponentId, data.battlefield);
 }
 
+// export function renderUsersInfo(data) {
+//     const players = data.players;
+
+//     const opponentId = Object.keys(players).find(id => id !== user_id);
+//     renderPlayerInfo(players[user_id]);
+//     renderOpponentNameAndAvatar(players[opponentId]);
+//     renderOpponentHealth(players[opponentId]);
+//     updateButtStatus(data.player === user_id);
+//     updateHand(players[user_id]);
+//     updateCardInteractivity(data.player === user_id);
+//     updateBattlefield(opponentId, data.battlefield);
+// }
+
+// Пепеписати бо ніхера не працює
 export function getBattlefieldCardIds() {
     const cards = document.querySelectorAll('.card-hand .card-in-deck[data-status="in-battlefield"]');
     const battlefieldCards = [];
@@ -181,4 +190,14 @@ export function getBattlefieldCardIds() {
     });
 
     return battlefieldCards;
+}
+
+function findFreeBattlefieldSlot() {
+    const slots = document.querySelectorAll('.battlefield-slot');
+    for (const slot of slots) {
+        if (!slot.hasChildNodes()) {
+            return slot;
+        }
+    }
+    return null;
 }
