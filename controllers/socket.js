@@ -142,6 +142,14 @@ const socket_controller = {
                 opponent: rooms_pool.players_get_public(room_id, users_ids.me),
             },
         });
+
+        // Check if we have a winner
+
+        const winner = rooms_pool.room_get_winner(room_id);
+        if (!winner) return;
+
+        players_sockets.me.emit("game", { winner });
+        players_sockets.opponent.emit("game", { winner });
     },
     on_disconnect: (io, client) => {
         console.log(`Disconnected, ${client.id}`);

@@ -24,6 +24,20 @@ rooms_pool.round_play = (room_id) => {
     rooms_pool[room_id].round++;
 };
 
+rooms_pool.room_get_winner = (room_id) => {
+    const players_ids = Object.keys(rooms_pool[room_id].players);
+    const players = rooms_pool[room_id].players;
+
+    if (players[players_ids[0]].defense <= 0 && players[players_ids[1]].defense <= 0) {
+        return "draw";
+    }
+
+    if (players[players_ids[0]].defense <= 0) return players_ids[1];
+    if (players[players_ids[1]].defense <= 0) return players_ids[0];
+
+    return null;
+};
+
 rooms_pool.player_randomize = (room_id) => {
     const player_ids = Object.keys(rooms_pool[room_id].players);
 
