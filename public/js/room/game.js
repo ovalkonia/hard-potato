@@ -1,7 +1,7 @@
-import{ animateNumberChange, moveMyCard } from './animations.js';
+import{ animateNumberChange, moveMyCard, moveEnemyCard } from './animations.js';
 
 let currentMana = 4;
-s
+
 export function renderPlayerInfo(player) {
     const healthElem = document.querySelector('.hud.bottom .health .value');
     const manaElem = document.querySelector('.hud.bottom .mana .value');
@@ -40,7 +40,7 @@ export function updateButtStatus(isPlayerTurn) {
     butt.disabled = !isPlayerTurn;
 }
 
-function updateBattlefield(opponentId, battlefield) {
+export function updateBattlefield(opponentId, battlefield) {
     const enemyCards = battlefield[opponentId];
     const enemySlots = document.querySelectorAll('.player2-cards .card');
 
@@ -149,20 +149,20 @@ export function updateHealthTextures(players) {
     updateTexture('.hud.top', opponent.Health);
 }
 
-export function renderGame(data) {
-    const players = data.players;
+// export function renderGame(data) {
+//     const players = data.players;
 
-    console.log(players);
-    console.log(user_id);
+//     console.log(players);
+//     console.log(user_id);
 
-    const opponentId = Object.keys(players).find(id => id !== user_id);
-    renderPlayerInfo(players[user_id]);
-    renderOponentInfo(players[opponentId]);
-    updateButtStatus(data.player === user_id);
-    updateHand(players[user_id]);
-    updateCardInteractivity(data.player === user_id);
-    updateBattlefield(opponentId, data.battlefield);
-}
+//     const opponentId = Object.keys(players).find(id => id !== user_id);
+//     renderPlayerInfo(players[user_id]);
+//     renderOponentInfo(players[opponentId]);
+//     updateButtStatus(data.player === user_id);
+//     updateHand(players[user_id]);
+//     updateCardInteractivity(data.player === user_id);
+//     updateBattlefield(opponentId, data.battlefield);
+// }
 
 // export function renderUsersInfo(data) {
 //     const players = data.players;
@@ -177,15 +177,17 @@ export function renderGame(data) {
 //     updateBattlefield(opponentId, data.battlefield);
 // }
 
-// Пепеписати бо ніхера не працює
 export function getBattlefieldCardIds() {
-    const cards = document.querySelectorAll('.card-hand .card-in-deck[data-status="in-battlefield"]');
+    const slots = document.querySelectorAll('.player1-cards .card');
     const battlefieldCards = [];
 
-    cards.forEach(card => {
-        const cardId = card.getAttribute('data-card-id');
-        if (cardId) {
-            battlefieldCards.push(parseInt(cardId));
+    slots.forEach(slot => {
+        const card = slot.querySelector('[data-card-id]');
+        if (card) {
+            const cardId = card.getAttribute('data-card-id');
+            if (cardId) {
+                battlefieldCards.push(parseInt(cardId));
+            }
         }
     });
 
