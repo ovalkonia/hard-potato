@@ -1,5 +1,7 @@
 import{ animateNumberChange } from './animations.js';
 
+let currentMana = 0;
+
 function renderPlayerInfo(player) {
     const healthElem = document.querySelector('.hud.bottom .health .value');
     const manaElem = document.querySelector('.hud.bottom .mana .value');

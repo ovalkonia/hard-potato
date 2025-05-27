@@ -8,9 +8,6 @@ const socket = io();
 showWaitingUI(roomId);
 startDotAnimation();
 
-
-
-
 console.log(user_id);
 console.log(deck);
 
