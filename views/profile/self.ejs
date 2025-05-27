@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/homePage.css">
 </head>
 <body>
+    <div id="message-popup" class="hidden"></div>
     <div class="home-container">
         <div class="user-info">
             <div class="avatar-wrapper">
@@ -19,7 +20,6 @@
         <div class="buttons">
             <a href="/tutorial" class="main-button">Tutorial</a>
             <a href="/room/manage" class="main-button">Play</a>
-            <!-- <button id="play-button" class="main-button">Play</button> -->
             <button id="logout-button" class="main-button">Log out</button>
             <a class="profile-button">Profile and Security</a>
         </div>
@@ -55,6 +55,7 @@
             <div class="modal-section">
                 <label>Change nickname</label>
                 <input type="text" id="new-nickname" placeholder="New Nickname">
+                <input type="password" id="confirm-pass" placeholder="Password">
                 <button id="save-nickname" class="save-button">Save Nickname</button>
             </div>
         </div>
