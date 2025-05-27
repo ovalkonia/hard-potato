@@ -9,9 +9,9 @@ const room_controller = {
             room_id: await rooms_pool.room_create(),
         });
     },
-    get_room: (req, res, next) => {
+    get_room: async (req, res, next) => {
         const room_id = req.params.room_id;
-        if (!rooms_pool.room_exists(room_id)) {
+        if (!await rooms_pool.room_exists(room_id)) {
             return next();
         }
 
@@ -19,8 +19,10 @@ const room_controller = {
             user_id: req.session.user.id,
             username: req.session.user.username,
             avatar_id: req.session.user.avatar_id,
-            deck: rooms_pool.deck_get(room_id),
+            room_id: room_id,
+            deck: await rooms_pool.deck_get(room_id),
         });
+
     },
 };
 

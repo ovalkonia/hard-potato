@@ -1,4 +1,3 @@
-import { deck, user_id } from './globals.js';
 import{ animateNumberChange } from './animations.js';
 
 function renderPlayerInfo(player) {
@@ -119,7 +118,7 @@ function updateHand(player) {
             <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> ${cardData.defense}</div>
             <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> ${cardData.cost}</div>
         `;
-        
+
         handContainer.appendChild(cardElement);
     });
 
@@ -155,6 +154,9 @@ export function updateHealthTextures(players) {
 
 export function renderGame(data) {
     const players = data.players;
+
+    console.log(players);
+    console.log(user_id);
 
     const opponentId = Object.keys(players).find(id => id !== user_id);
     renderPlayerInfo(players[user_id]);

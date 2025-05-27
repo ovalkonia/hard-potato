@@ -92,9 +92,10 @@
     </div>
 </body>
 <script>
-    const deck = <%-JSON.stringify(deck)%>;
-    const user_id = <%= user_id %>;
+    const deck = <%- JSON.stringify(deck) %>;
+    const user_id = <%- user_id %>;
+    const roomId = "<%- room_id %>";
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-<script type="module" src="/js/lobby/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script type="module" src="/js/room/main.js"></script>
 </html>

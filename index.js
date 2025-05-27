@@ -18,6 +18,7 @@ const socket_server = socket_service.initialize(http_server, {
         origin: "*",
     },
 });
+socket_server.engine.use(express_session);
 
 socket_use(socket_server);
 
