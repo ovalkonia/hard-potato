@@ -52,7 +52,7 @@ socket.on('start', (data) => {
     showGameUI();
 
     const opponent = data.opponent;
-    my_turn = user_id === data.player;
+    my_turn = user_id !== data.player;
     renderOpponentNameAndAvatar({
         name: opponent.username,
         avatar: opponent.avatar_id
@@ -74,6 +74,7 @@ document.getElementById('end-turn').addEventListener('click', () => {
 });
 
 socket.on('round', (data) => {
+    my_turn = !my_turn;
     renderPlayerInfo(data.players.me);
     renderOpponentHealth(data.players.opponent);
     updateHealthTextures(data.players);

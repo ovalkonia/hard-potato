@@ -103,6 +103,7 @@ const socket_controller = {
         // Play cards
 
         rooms_pool.hand_play(room_id, user_id, data.battlefield);
+        rooms_pool.player_swap(room_id);
 
         // Send updated battlefield
 
@@ -126,10 +127,7 @@ const socket_controller = {
 
         // Check if it's battle time
 
-        if (!rooms_pool.battlefield_full(room_id)) {
-            rooms_pool.player_swap(room_id);
-            return;
-        }
+        if (!rooms_pool.battlefield_full(room_id)) return;
 
         rooms_pool.round_play(room_id);
         players_sockets.me.emit("round", {
