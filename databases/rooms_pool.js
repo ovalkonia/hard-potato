@@ -14,6 +14,13 @@ rooms_pool.room_full = (room_id) => {
     return Object.keys(rooms_pool[room_id].players).length >= 2;
 };
 
+rooms_pool.round_play = (room_id) => {
+    rooms_pool.battle(room_id);
+    rooms_pool.battlefield_clear(room_id);
+    rooms_pool.mana_restore(room_id);
+    rooms_pool.hands_add(room_id, 2);
+};
+
 rooms_pool.player_randomize = (room_id) => {
     const player_ids = Object.keys(rooms_pool[room_id].players);
 
@@ -50,6 +57,14 @@ rooms_pool.battlefield_get = (room_id) => {
     return rooms_pool[room_id].battlefield;
 };
 
+rooms_pool.battlefield_clear = (room_id) => {
+    rooms_pool[room_id].battlefield = {};
+};
+
+rooms_pool.battlefield_full = (room_id) => {
+    return Object.keys(rooms_pool.battlefield_get(room_id)).length >= 2;
+};
+
 rooms_pool.deck_get = (room_id) => {
     return rooms_pool[room_id].deck;
 };
@@ -80,7 +95,6 @@ rooms_pool.players_add = (room_id, player_id) => {
     };
 
     rooms_pool[room_id].players[player_id] = player;
-    rooms_pool[room_id].battlefield[player_id] = [];
     rooms_pool.hand_add(room_id, player_id, 8);
 
     return player_id;
@@ -102,11 +116,19 @@ rooms_pool.hand_add = (room_id, player_id, n) => {
     player.hand.push(...deck.toSorted(() => Math.random() - 0.5).map(card => card.id).slice(0, n));
 };
 
+rooms_pool.hands_add = (room_id, n) => {
+    const players_ids = rooms_pool.players_get_ids(room_id);
+
+    rooms_pool.hand_add(room_id, players_ids[0], n);
+    rooms_pool.hand_add(room_id, players_ids[1], n);
+};
+
 rooms_pool.hand_play = (room_id, player_id, card_ids) => {
     const deck = rooms_pool[room_id].deck;
     const player = rooms_pool[room_id].players[player_id];
     const hand = player.hand;
 
+    rooms_pool[room_id].battlefield[player_id] = [];
     for (let i = 0; i < card_ids.length; ++i) {
         for (let j = 0; j < hand.length; ++j) {
             if (hand[j] === card_ids[i]) {
@@ -119,7 +141,7 @@ rooms_pool.hand_play = (room_id, player_id, card_ids) => {
 };
 
 rooms_pool.battle = (room_id) => {
-    const player_ids = Object.keys(rooms_pool[room_id].players);
+    const player_ids = rooms_pool.players_get_ids(room_id);
     const battlefield = rooms_pool[room_id].battlefield;
     const deck = rooms_pool[room_id].deck;
 
@@ -155,12 +177,6 @@ rooms_pool.battle = (room_id) => {
         results[player_ids[0]].attack - results[player_ids[1]].defense,
         0
     );
-};
-
-rooms_pool.battlefield_clear = (room_id) => {
-    const player_ids = Object.keys(rooms_pool[room_id].players);
-    rooms_pool[room_id].battlefield[player_ids[0]] = [];
-    rooms_pool[room_id].battlefield[player_ids[1]] = [];
 };
 
 rooms_pool.player_swap = (room_id) => {

@@ -91,11 +91,10 @@ export function showEndOverlay(type) {
 
 export function animateNumberChange(elem, start, end, duration = 500) {
     const startTime = performance.now();
-
     function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const value = Math.round(start + (end - start) * progress);
+        const value = Math.floor(start + (end - start) * progress);
         elem.textContent = value;
 
         if (progress < 1) {
@@ -108,7 +107,7 @@ export function animateNumberChange(elem, start, end, duration = 500) {
 
 function createCardHTML(cardData) {
     return `
-        <img class="unit-image" src="/images/avatars/${cardData.id}.png" alt="${cardData.name}">
+        <img class="unit-image" src="/images/cards/${cardData.id}.png" alt="${cardData.name}">
         <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> ${cardData.attack}</div>
         <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> ${cardData.defense}</div>
         <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> ${cardData.cost}</div>
@@ -171,8 +170,13 @@ export function moveMyCard(cardEl, targetSlotEl) {
     const slotRect = targetSlotEl.getBoundingClientRect();
 
     const cardContent = cardEl.innerHTML;
+    const cardId = cardEl.getAttribute('data-card-id');
     const clone = document.createElement('div');
     clone.innerHTML = cardContent;
+
+    // ⬇️ ПОЗНАЧАЄМО СЛОТ ЗАЙНЯТИМ ДО АНІМАЦІЇ
+    targetSlotEl.classList.add('occupied');
+    targetSlotEl.setAttribute('data-card-id', cardId);
 
     Object.assign(clone.style, {
         position: 'fixed',
@@ -225,8 +229,6 @@ export function moveMyCard(cardEl, targetSlotEl) {
                 overflow: 'hidden',
                 transition: 'transform 0.25s ease, box-shadow 0.25s ease'
             });
-
-            targetSlotEl.className = 'card my-card card-in-deck';
 
             cardEl.remove();
         }

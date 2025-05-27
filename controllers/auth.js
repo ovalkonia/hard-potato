@@ -50,6 +50,7 @@ const auth_controller = {
                 email: req.body.email,
                 username: req.body.username,
                 password: req.body.password,
+                avatar_id: 2,
             });
             user_schema.validate_email();
             user_schema.validate_username();

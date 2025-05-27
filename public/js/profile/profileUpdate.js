@@ -12,8 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (result.success) {
                 document.getElementById('user-avatar').src = `/images/avatars/${avatar_id}.png`;
                 document.getElementById('avatar-modal').style.display = 'none';
+                showPopupMessage('Avatar updated successfully!');
             } else {
-                alert('Failed to update avatar.');
+                showPopupMessage('Failed to update avatar.');
             }
         });
     });
@@ -23,35 +24,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('new-password').value;
 
         if (!old_password || !password) {
-            alert('Please fill in both password fields.');
+            showPopupMessage('Please fill in both password fields.');
             return;
         }
 
         const result = await updateProfile({ old_password, password });
 
         if (result.success) {
-            console.log('Password updated successfully!');
             profileModal.style.display = 'none';
+            showPopupMessage('Password updated successfully!');
         } else {
-            alert(result.message || 'Failed to update password.');
+            showPopupMessage(result.message || 'Failed to update password.');
         }
     });
 
     saveNicknameBtn.addEventListener('click', async () => {
         const username = document.getElementById('new-nickname').value;
+        const password = document.getElementById('confirm-pass').value;
 
-        if (!username) {
-            alert('Please enter a new nickname.');
+        if (!username || !password) {
+            showPopupMessage('Please fill in both fields.');
             return;
         }
 
-        const result = await updateProfile({ username });
+        const result = await updateProfile({ username, password });
 
         if (result.success) {
             usernameHeading.textContent = username;
             profileModal.style.display = 'none';
+            showPopupMessage('Nickname updated successfully!');
         } else {
-            alert(result.message || 'Failed to update nickname.');
+            showPopupMessage(result.message || 'Failed to update nickname.');
         }
     });
 
@@ -71,3 +74,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+function showPopupMessage(message, duration = 2000) {
+    const popup = document.getElementById('message-popup');
+    popup.textContent = message;
+    popup.classList.remove('hidden');
+    popup.classList.add('show');
+
+    setTimeout(() => {
+        popup.classList.remove('show');
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 500);
+    }, duration);
+}

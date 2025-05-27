@@ -69,13 +69,13 @@ function toggleCardStatus(cardElement) {
     const cardData = deck.find(card => card.id === cardId);
 
     if (currentMana < cardData.cost) {
-        alert('Not enough sparks to use this card!');
+        showPopupMessage('Not enough sparks to play this card!', 2000);
         return;
     }
 
     const targetSlot = findFreeBattlefieldSlot();
     if (!targetSlot) {
-        alert('No free slots on the battlefield!');
+        showPopupMessage('No free slots on the battlefield!', 2000);
         return;
     }
 
@@ -128,7 +128,7 @@ export function updateHealthTextures(players) {
 
     const updateTexture = (selector, healthValue) => {
         const icon = document.querySelector(`${selector} .health .icon`);
-
+        console.log(`Updating texture for ${selector} with health value: ${healthValue}`);
         let texture;
         switch (true) {
             case (healthValue > 20):
@@ -144,8 +144,8 @@ export function updateHealthTextures(players) {
         icon.src = `/images/lobby/${texture}`;
     };
 
-    updateTexture('.hud.bottom', player.Health);
-    updateTexture('.hud.top', opponent.Health);
+    updateTexture('.hud.bottom', player.defense);
+    updateTexture('.hud.top', opponent.defense);
 }
 
 // export function renderGame(data) {
@@ -181,12 +181,9 @@ export function getBattlefieldCardIds() {
     const battlefieldCards = [];
 
     slots.forEach(slot => {
-        const card = slot.querySelector('[data-card-id]');
-        if (card) {
-            const cardId = card.getAttribute('data-card-id');
-            if (cardId) {
-                battlefieldCards.push(parseInt(cardId));
-            }
+        const cardId = slot.getAttribute('data-card-id');
+        if (cardId) {
+            battlefieldCards.push(parseInt(cardId));
         }
     });
 
@@ -194,11 +191,25 @@ export function getBattlefieldCardIds() {
 }
 
 function findFreeBattlefieldSlot() {
-    const slots = document.querySelectorAll('.battlefield-slot');
+    const slots = document.querySelectorAll('.player1-cards .card');
     for (const slot of slots) {
-        if (!slot.hasChildNodes()) {
+        if (!slot.classList.contains('occupied')) {
             return slot;
         }
     }
     return null;
+}
+
+export function showPopupMessage(message, duration = 1000) {
+    const popup = document.getElementById('message-popup');
+    popup.textContent = message;
+    popup.classList.remove('hidden');
+    popup.classList.add('show');
+
+    setTimeout(() => {
+        popup.classList.remove('show');
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 500);
+    }, duration);
 }
