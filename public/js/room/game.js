@@ -40,8 +40,8 @@ export function updateButtStatus(isPlayerTurn) {
     butt.disabled = !isPlayerTurn;
 }
 
-export function updateBattlefield(opponentId, battlefield) {
-    const enemyCards = battlefield[opponentId];
+export function updateBattlefield(battlefield) {
+    const enemyCards = battlefield.opponent;
     const enemySlots = document.querySelectorAll('.player2-cards .card');
 
     enemySlots.forEach(slot => slot.innerHTML = '');
@@ -123,9 +123,8 @@ export function updateHand(player, isPlayerTurn = false) {
 }
 
 export function updateHealthTextures(players) {
-    const player = players[user_id];
-    const opponentId = Object.keys(players).find(id => id !== user_id);
-    const opponent = players[opponentId];
+    const player = players.me;
+    const opponent = players.opponent;
 
     const updateTexture = (selector, healthValue) => {
         const icon = document.querySelector(`${selector} .health .icon`);
