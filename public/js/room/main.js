@@ -67,7 +67,6 @@ socket.on('start', (data) => {
 
 document.getElementById('end-turn').addEventListener('click', () => {
     const battlefieldCards = getBattlefieldCardIds();
-    console.log('Battlefield cards:', battlefieldCards);
     socket.emit('play', {
         battlefield: battlefieldCards
     });
@@ -81,7 +80,6 @@ socket.on('round', (data) => {
     updateHealthTextures(data.players);
     updateHand(data.players.me, my_turn);
     updateButtStatus(my_turn);
-    console.log(my_turn);
     if (my_turn) {
         startCircularTurnTimer(30, () => {
             const battlefieldCards = getBattlefieldCardIds();
@@ -96,7 +94,7 @@ socket.on('round', (data) => {
 
 socket.on('battlefield', (data) => {
     my_turn = !my_turn;
-
+    console.log('Battlefield update received');
     const battlefield = data.battlefield;
 
     if (my_turn) updateBattlefield(battlefield);

@@ -128,7 +128,6 @@ export function updateHealthTextures(players) {
 
     const updateTexture = (selector, healthValue) => {
         const icon = document.querySelector(`${selector} .health .icon`);
-        console.log(`Updating texture for ${selector} with health value: ${healthValue}`);
         let texture;
         switch (true) {
             case (healthValue > 20):
