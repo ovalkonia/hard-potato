@@ -148,34 +148,6 @@ export function updateHealthTextures(players) {
     updateTexture('.hud.top', opponent.defense);
 }
 
-// export function renderGame(data) {
-//     const players = data.players;
-
-//     console.log(players);
-//     console.log(user_id);
-
-//     const opponentId = Object.keys(players).find(id => id !== user_id);
-//     renderPlayerInfo(players[user_id]);
-//     renderOponentInfo(players[opponentId]);
-//     updateButtStatus(data.player === user_id);
-//     updateHand(players[user_id]);
-//     updateCardInteractivity(data.player === user_id);
-//     updateBattlefield(opponentId, data.battlefield);
-// }
-
-// export function renderUsersInfo(data) {
-//     const players = data.players;
-
-//     const opponentId = Object.keys(players).find(id => id !== user_id);
-//     renderPlayerInfo(players[user_id]);
-//     renderOpponentNameAndAvatar(players[opponentId]);
-//     renderOpponentHealth(players[opponentId]);
-//     updateButtStatus(data.player === user_id);
-//     updateHand(players[user_id]);
-//     updateCardInteractivity(data.player === user_id);
-//     updateBattlefield(opponentId, data.battlefield);
-// }
-
 export function getBattlefieldCardIds() {
     const slots = document.querySelectorAll('.player1-cards .card');
     const battlefieldCards = [];
@@ -212,4 +184,20 @@ export function showPopupMessage(message, duration = 1000) {
             popup.classList.add('hidden');
         }, 500);
     }, duration);
+}
+
+export function clearBattlefield() {
+    const allSlots = document.querySelectorAll('.player1-cards .card, .player2-cards .card');
+
+    allSlots.forEach(slot => {
+        slot.innerHTML = '';
+        slot.removeAttribute('style');
+        slot.classList.remove('occupied');
+
+        if (slot.closest('.player1-cards')) {
+            slot.className = 'card my-card';
+        } else if (slot.closest('.player2-cards')) {
+            slot.className = 'card enemy-card';
+        }
+    });
 }

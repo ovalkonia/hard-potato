@@ -14,7 +14,8 @@ import {
     updateButtStatus,
     updateCardInteractivity,
     updateBattlefield,
-    showPopupMessage
+    showPopupMessage,
+    clearBattlefield
 } from './game.js';
 
 let my_turn;
@@ -74,6 +75,7 @@ document.getElementById('end-turn').addEventListener('click', () => {
 });
 
 socket.on('round', (data) => {
+    clearBattlefield();
     my_turn = !my_turn;
     renderPlayerInfo(data.players.me);
     renderOpponentHealth(data.players.opponent);
@@ -112,4 +114,7 @@ socket.on('game', (data) => {
 
     const result = data.winner === user_id ? "win" : "lose";
     showEndOverlay(result);
+    setTimeout(() => {
+        window.location.href = '/profile/self';
+    }, 5000);
 });

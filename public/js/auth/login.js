@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (res.ok) {
                 showPopupMessage(responseData.message || "Login successful!");
+                setTimeout(() => {
+                    window.location.href = '/profile/self';
+                }, 1000);
             } else {
                 showPopupMessage(responseData.message || "Login failed!", 4000);
             }
