@@ -58,11 +58,6 @@ socket.on('start', (data) => {
         name: opponent.username,
         avatar: opponent.avatar_id
     });
-    if (!my_turn) {
-        showPopupMessage("It's your turn!", 2000);
-    } else {
-        showPopupMessage(`Opponent's turn!`, 2000);
-    }
 });
 
 document.getElementById('end-turn').addEventListener('click', () => {
@@ -89,6 +84,12 @@ socket.on('round', (data) => {
         });
     } else {
         startCircularTurnTimer(30, () => {});
+    }
+
+    if (my_turn) {
+        showPopupMessage("It's your turn!", 2000);
+    } else {
+        showPopupMessage(`Opponent's turn!`, 2000);
     }
 });
 
