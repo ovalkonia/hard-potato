@@ -171,10 +171,13 @@ export function moveMyCard(cardEl, targetSlotEl) {
 
     const cardContent = cardEl.innerHTML;
     const cardId = cardEl.getAttribute('data-card-id');
+
+    cardEl.style.pointerEvents = 'none';
+    cardEl.style.opacity = '0.5';
+
     const clone = document.createElement('div');
     clone.innerHTML = cardContent;
 
-    // ⬇️ ПОЗНАЧАЄМО СЛОТ ЗАЙНЯТИМ ДО АНІМАЦІЇ
     targetSlotEl.classList.add('occupied');
     targetSlotEl.setAttribute('data-card-id', cardId);
 
