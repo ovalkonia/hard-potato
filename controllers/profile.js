@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import mysql_pool from "../databases/mysql_pool.js";
 import UserSchema from "../schemas/UserSchema.js";
 import UserModel from "../models/UserModel.js";
@@ -16,27 +17,42 @@ const profile_controller = {
         let connection = await mysql_pool.getConnection();;
 
         try {
-            if (req.body.password &&
-                req.body.old_password !== req.session.user.password) {
+            if (req.body.new_password &&
+                !await bcrypt.compare(req.body.password, req.session.user.password)) {
+                throw UserModelException.UNAUTHORIZED;
+            }
+
+            if (req.body.username &&
+                !await bcrypt.compare(req.body.password, req.session.user.password)) {
                 throw UserModelException.UNAUTHORIZED;
             }
 
             const model_adapter = new MySQLModelAdapter(connection, "users");
             const user_schema = new UserSchema({
                 username: req.body.username,
-                password: req.body.password,
+                password: req.body.new_password,
                 avatar_id: req.body.avatar_id,
             });
-            if (user_schema.username) {
-                user_schema.validate_username();
+
+            const user_model = new UserModel(user_schema, model_adapter);
+
+            if (user_model.schema.username) {
+                user_model.schema.validate_username();
                 const lookup = await UserModel.get_first_filter(
                     model_adapter,
-                    FilterBuilder.where("username", "=", user_schema.username)
+                    FilterBuilder.where("username", "=", user_model.schema.username)
                 );
                 if (lookup) throw UserModelException.DUPLICATE_USERNAME;
             }
-            if (user_schema.password) user_schema.validate_password();
-            if (user_schema.avatar_id) user_schema.validate_avatar_id();
+
+            if (user_model.schema.password) {
+                user_model.schema.validate_password();
+                await user_model.hash_password(12);
+            }
+
+            if (user_model.schema.avatar_id) {
+                user_model.schema.validate_avatar_id();
+            }
 
             await UserModel.update_first_filter(
                 model_adapter,

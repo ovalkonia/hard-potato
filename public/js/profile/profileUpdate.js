@@ -20,15 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     savePasswordBtn.addEventListener('click', async () => {
-        const old_password = document.getElementById('old-password').value;
-        const password = document.getElementById('new-password').value;
+        const password = document.getElementById('old-password').value;
+        const new_password = document.getElementById('new-password').value;
 
-        if (!old_password || !password) {
+        if (!password || !new_password) {
             showPopupMessage('Please fill in both password fields.');
             return;
         }
 
-        const result = await updateProfile({ old_password, password });
+        const result = await updateProfile({ password, new_password });
 
         if (result.success) {
             profileModal.style.display = 'none';
