@@ -146,14 +146,10 @@ rooms_pool.hand_play = (room_id, player_id, card_ids) => {
     const hand = player.hand;
 
     rooms_pool[room_id].battlefield[player_id] = [];
-    for (let i = 0; i < card_ids.length; ++i) {
-        for (let j = 0; j < hand.length; ++j) {
-            if (hand[j] === card_ids[i]) {
-                rooms_pool[room_id].battlefield[player_id].push(card_ids[i]);
-                player.mana -= deck.find(card => card.id === card_ids[i]).cost;
-                hand.splice(j, 1);
-            }
-        }
+    for (const card_id of card_ids) {
+        const hand_id = hand.find(id => id === card_id);
+        hand.splice(hand_id, 1);
+        rooms_pool[room_id].battlefield[player_id].push(card_id);
     }
 };
 
