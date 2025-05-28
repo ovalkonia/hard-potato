@@ -58,8 +58,7 @@ socket.on('start', (data) => {
         name: opponent.username,
         avatar: opponent.avatar_id
     });
-
-    if (my_turn) {
+    if (!my_turn) {
         showPopupMessage("It's your turn!", 2000);
     } else {
         showPopupMessage(`Opponent's turn!`, 2000);
@@ -82,6 +81,7 @@ socket.on('round', (data) => {
     updateHealthTextures(data.players);
     updateHand(data.players.me, my_turn);
     updateButtStatus(my_turn);
+    console.log(my_turn);
     if (my_turn) {
         startCircularTurnTimer(30, () => {
             const battlefieldCards = getBattlefieldCardIds();
@@ -103,9 +103,16 @@ socket.on('battlefield', (data) => {
     updateButtStatus(my_turn);
     updateCardInteractivity(my_turn);
     if (my_turn) {
+        startCircularTurnTimer(30, () => {
+            const battlefieldCards = getBattlefieldCardIds();
+            socket.emit('play', {
+                battlefield: battlefieldCards
+            });
+        });
         showPopupMessage("It's your turn!", 2000);
     } else {
         showPopupMessage("Opponent's turn!", 2000);
+        startCircularTurnTimer(30, () => {});
     }
 });
 
