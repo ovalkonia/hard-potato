@@ -18,7 +18,7 @@ rooms_pool.round_play = (room_id) => {
     rooms_pool.battle(room_id);
     rooms_pool.battlefield_clear(room_id);
     rooms_pool.mana_restore(room_id);
-    rooms_pool.hands_add(room_id, 2);
+    rooms_pool.hands_add(room_id, 1);
     rooms_pool.player_swap(room_id);
 
     rooms_pool[room_id].round++;
@@ -130,6 +130,8 @@ rooms_pool.hand_add = (room_id, player_id, n) => {
     const deck = rooms_pool[room_id].deck;
     const player = rooms_pool[room_id].players[player_id];
 
+    if (player.hand.length >= 10) return;
+
     player.hand.push(...deck.toSorted(() => Math.random() - 0.5).map(card => card.id).slice(0, n));
 };
 
@@ -147,7 +149,9 @@ rooms_pool.hand_play = (room_id, player_id, card_ids) => {
 
     rooms_pool[room_id].battlefield[player_id] = [];
     for (const card_id of card_ids) {
-        const hand_id = hand.find(id => id === card_id);
+        const hand_id = hand.findIndex(id => id === card_id);
+        if (hand_id === -1) continue;
+
         hand.splice(hand_id, 1);
         rooms_pool[room_id].battlefield[player_id].push(card_id);
     }
