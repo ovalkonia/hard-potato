@@ -19,6 +19,7 @@ import {
 } from './game.js';
 
 let my_turn;
+let battlefield_count = 0;
 const socket = io();
 
 showWaitingUI(roomId);
@@ -53,7 +54,7 @@ socket.on('start', (data) => {
     showGameUI();
 
     const opponent = data.opponent;
-    my_turn = user_id !== data.player;
+    my_turn = user_id === data.player;
     renderOpponentNameAndAvatar({
         name: opponent.username,
         avatar: opponent.avatar_id
@@ -61,6 +62,7 @@ socket.on('start', (data) => {
 });
 
 document.getElementById('end-turn').addEventListener('click', () => {
+    stopCircularTurnTimer();
     const battlefieldCards = getBattlefieldCardIds();
     socket.emit('play', {
         battlefield: battlefieldCards
@@ -69,7 +71,6 @@ document.getElementById('end-turn').addEventListener('click', () => {
 
 socket.on('round', (data) => {
     clearBattlefield();
-    my_turn = !my_turn;
     renderPlayerInfo(data.players.me);
     renderOpponentHealth(data.players.opponent);
     updateHealthTextures(data.players);
@@ -94,25 +95,30 @@ socket.on('round', (data) => {
 });
 
 socket.on('battlefield', (data) => {
-    my_turn = !my_turn;
-    console.log('Battlefield update received');
-    const battlefield = data.battlefield;
+    ++battlefield_count
 
-    if (my_turn) updateBattlefield(battlefield);
+    if (!my_turn) updateBattlefield(data.battlefield);
+    if (battlefield_count !== 2) {
+        my_turn = !my_turn;
+            if (my_turn) {
+            startCircularTurnTimer(30, () => {
+                const battlefieldCards = getBattlefieldCardIds();
+                socket.emit('play', {
+                    battlefield: battlefieldCards
+                });
+            });
+            showPopupMessage("It's your turn!", 2000);
+        } else {
+            showPopupMessage("Opponent's turn!", 2000);
+            startCircularTurnTimer(30, () => {});
+        }
+    } else {
+        battlefield_count = 0;
+    }
+
     updateButtStatus(my_turn);
     updateCardInteractivity(my_turn);
-    if (my_turn) {
-        startCircularTurnTimer(30, () => {
-            const battlefieldCards = getBattlefieldCardIds();
-            socket.emit('play', {
-                battlefield: battlefieldCards
-            });
-        });
-        showPopupMessage("It's your turn!", 2000);
-    } else {
-        showPopupMessage("Opponent's turn!", 2000);
-        startCircularTurnTimer(30, () => {});
-    }
+
 });
 
 socket.on('game', (data) => {
