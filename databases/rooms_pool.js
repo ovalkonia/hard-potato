@@ -15,13 +15,13 @@ rooms_pool.room_full = (room_id) => {
 };
 
 rooms_pool.round_play = (room_id) => {
+    rooms_pool[room_id].round++;
+
     rooms_pool.battle(room_id);
     rooms_pool.battlefield_clear(room_id);
     rooms_pool.mana_restore(room_id);
     rooms_pool.hands_add(room_id, 1);
     rooms_pool.player_swap(room_id);
-
-    rooms_pool[room_id].round++;
 };
 
 rooms_pool.room_get_winner = (room_id) => {

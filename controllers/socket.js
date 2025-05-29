@@ -29,16 +29,24 @@ const socket_controller = {
     on_connection: async (io, client) => {
     },
     on_join: async (io, client, room_id) => {
+        // Check if session exists
+
         const user = client.request.session.user;
         if (!user) return;
+
+        // Check if user is allowed in a room
         if (!rooms_pool.room_exists(room_id) ||
             rooms_pool.room_full(room_id)) {
             return;
         }
 
+        // Add player to the room
+
         rooms_pool.players_add(room_id, user.id);
         client.join(room_id);
         user.room_id = room_id;
+
+        // Check if it's game time
 
         if (!rooms_pool.room_full(room_id)) return;
 
@@ -55,6 +63,8 @@ const socket_controller = {
 
         connection.release();
 
+        // Send start of the game
+
         const players_sockets = await get_players_sockets(io, client, room_id);
         players_sockets.me.emit("start", {
             player: rooms_pool.player_get(room_id),
@@ -70,6 +80,8 @@ const socket_controller = {
                 avatar_id: users.me.avatar_id,
             },
         });
+
+        // Send round
 
         rooms_pool.mana_restore(room_id);
         players_sockets.me.emit("round", {
