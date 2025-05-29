@@ -191,6 +191,7 @@ export function clearBattlefield() {
     allSlots.forEach(slot => {
         slot.innerHTML = '';
         slot.removeAttribute('style');
+        slot.removeAttribute('data-card-id');
         slot.classList.remove('occupied');
 
         if (slot.closest('.player1-cards')) {
