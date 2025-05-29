@@ -155,16 +155,16 @@ const socket_controller = {
                     opponent: rooms_pool.players_get_public(room_id, users_ids.me),
                 },
             });
+
+            // Check if we have a winner
+
+            const winner = rooms_pool.room_get_winner(room_id);
+            if (!winner) return;
+
+            rooms_pool.room_cleanup(room_id);
+
+            io.to(room_id).emit("game", { winner });
         }, 3000);
-
-        // Check if we have a winner
-
-        const winner = rooms_pool.room_get_winner(room_id);
-        if (!winner) return;
-
-        rooms_pool.room_cleanup(room_id);
-
-        io.to(room_id).emit("game", { winner });
     },
     on_disconnect: async (io, client) => {
         // Check if the session exists
