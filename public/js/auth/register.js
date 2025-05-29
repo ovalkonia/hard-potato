@@ -17,11 +17,32 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         const formData = new FormData(form);
+        const username = formData.get("username").trim();
+        const email = formData.get("email").trim();
         const password = formData.get("password");
         const cpassword = formData.get("cpassword");
 
+        const usernameRegex = /^[A-Za-z_]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+
+        if (!usernameRegex.test(username)) {
+            showPopupMessage("Username must contain only letters and underscores.", 3000);
+            return;
+        }
+
+        if (!emailRegex.test(email)) {
+            showPopupMessage("Invalid email address.", 3000);
+            return;
+        }
+
+        if (!passwordRegex.test(password)) {
+            showPopupMessage("Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit and be 8+ characters long.", 4000);
+            return;
+        }
+
         if (password !== cpassword) {
-            showPopupMessage("Passwords do not match", 4000);
+            showPopupMessage("Passwords do not match.", 3000);
             return;
         }
 
@@ -40,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (res.ok) {
                 showPopupMessage(responseData.message || "Registration successful!");
                 setTimeout(() => {
-                    const encodedUsername = encodeURIComponent(data.username);
+                    const encodedUsername = encodeURIComponent(username);
                     window.location.href = `/auth/login/${encodedUsername}`;
                 }, 1500);
             } else {

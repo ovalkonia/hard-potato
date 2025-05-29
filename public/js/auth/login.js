@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector('form');
 
-    function showPopupMessage(message, duration = 1000) {
+    function showPopupMessage(message, duration = 1500) {
         const popup = document.getElementById('message-popup');
         popup.textContent = message;
         popup.classList.remove('hidden');
@@ -15,11 +15,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }, duration);
     }
 
+    const usernameRegex = /^[a-zA-Z_]+$/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
+
+        const { username, password } = data;
+
+        if (!usernameRegex.test(username)) {
+            showPopupMessage("Username can contain only letters and underscores.", 3000);
+            return;
+        }
+
+        if (!passwordRegex.test(password)) {
+            showPopupMessage("Password must be at least 8 characters long and contain a digit, a lowercase, and an uppercase letter.", 4000);
+            return;
+        }
 
         try {
             const res = await fetch('/auth/login', {
