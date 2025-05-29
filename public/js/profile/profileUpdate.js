@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileModal = document.getElementById('profile-modal');
     const usernameHeading = document.querySelector('.user-info h2');
 
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+    const usernameRegex = /^[a-zA-Z_]+$/;
+
     document.querySelectorAll('.avatar-gallery img').forEach(img => {
         img.addEventListener('click', async () => {
             const avatar_id = parseInt(img.dataset.id);
@@ -28,6 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (!passwordRegex.test(new_password)) {
+            showPopupMessage('New password must be at least 8 characters, include one digit, one lowercase and one uppercase letter.', 4000);
+            return;
+        }
+
         const result = await updateProfile({ password, new_password });
 
         if (result.success) {
@@ -44,6 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!username || !password) {
             showPopupMessage('Please fill in both fields.');
+            return;
+        }
+
+        if (!usernameRegex.test(username)) {
+            showPopupMessage('Nickname must contain only letters and underscores.', 3000);
             return;
         }
 
