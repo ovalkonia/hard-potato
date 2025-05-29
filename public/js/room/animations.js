@@ -107,7 +107,7 @@ export function animateNumberChange(elem, start, end, duration = 500) {
 
 function createCardHTML(cardData) {
     return `
-        <img class="unit-image" src="/images/cards/${cardData.id}.png" alt="${cardData.name}">
+        <img class="unit-image" src="/images/cards/${cardData.id}.png" alt="${cardData.name}" title="${cardData.name}">
         <div class="stat top-left"><img src="/images/lobby/attack.png" alt="Attack"> ${cardData.attack}</div>
         <div class="stat top-right"><img src="/images/lobby/defense.png" alt="Defense"> ${cardData.defense}</div>
         <div class="stat bottom-right"><img src="/images/lobby/cost.png" alt="Cost"> ${cardData.cost}</div>
