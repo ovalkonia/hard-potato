@@ -104,6 +104,10 @@ rooms_pool.room_create = async () => {
     return id;
 };
 
+rooms_pool.room_cleanup = (room_id) => {
+    delete rooms_pool[room_id];
+};
+
 rooms_pool.players_add = (room_id, player_id) => {
     const player = {
         defense: 30,

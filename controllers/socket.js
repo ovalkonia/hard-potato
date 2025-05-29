@@ -162,11 +162,28 @@ const socket_controller = {
         const winner = rooms_pool.room_get_winner(room_id);
         if (!winner) return;
 
-        players_sockets.me.emit("game", { winner });
-        players_sockets.opponent.emit("game", { winner });
+        rooms_pool.room_cleanup(room_id);
+
+        io.to(room_id).emit("game", { winner });
     },
-    on_disconnect: (io, client) => {
-        console.log(`Disconnected, ${client.id}`);
+    on_disconnect: async (io, client) => {
+        // Check if the session exists
+
+        const user = client.request.session.user;
+        if (!user) return;
+
+        // Check if the room exists
+
+        const room_id = user.room_id;
+        if (!rooms_pool.room_exists(room_id)) return;
+
+        // Send the winner
+
+        const users_ids = get_users_ids(io, client, room_id);
+
+        rooms_pool.room_cleanup(room_id);
+
+        io.to(room_id).emit("game", { winner: String(users_ids.opponent) });
     },
 };
 
