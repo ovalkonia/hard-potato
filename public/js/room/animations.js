@@ -155,7 +155,7 @@ export function moveEnemyCard(targetSlotEl, cardData) {
         top: `${slotRect.top}px`,
         scale: 1,
         easing: "easeOutBack",
-        duration: 800,
+        duration: 400,
         complete: () => {
         animCard.remove();
         targetSlotEl.innerHTML = createCardHTML(cardData);
@@ -204,13 +204,21 @@ export function moveMyCard(cardEl, targetSlotEl) {
     });
 
     document.body.appendChild(clone);
+    cardEl.style.width = "0";
+    cardEl.style.height = "0";
+    cardEl.style.padding = "0";
+    cardEl.style.margin = "0 -6px";
+    cardEl.style.border = "0";
+    cardEl.style.fontSize = "0";
+    cardEl.style.overflow = "hidden";
+    cardEl.style.transition = "0.4s";
 
     anime({
         targets: clone,
         left: `${slotRect.left}px`,
         top: `${slotRect.top}px`,
         scale: 1,
-        duration: 700,
+        duration: 400,
         easing: 'easeOutExpo',
         complete: () => {
             clone.remove();
