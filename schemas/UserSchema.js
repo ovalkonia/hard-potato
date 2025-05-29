@@ -13,34 +13,27 @@ export default class UserSchema extends BaseSchema {
     }
 
     validate_email() {
-        // Actually validate this stuff and do
-        // throw UserSchemaException.INVALID_EMAIL;
-        // if needed
+        const email_regexp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email_regexp.test(this.email)) throw UserSchemaException.INVALID_EMAIL;
 
         return this;
     }
 
     validate_username() {
-        // Actually validate this stuff and do
-        // throw UserSchemaException.INVALID_USERNAME;
-        // if needed
+        const username_regexp = /^[a-zA-Z_]+$/;
+        if (!username_regexp.test(this.username)) throw UserSchemaException.INVALID_USERNAME;
 
         return this;
     }
 
     validate_password() {
-        // Actually validate this stuff and do
-        // throw UserSchemaException.INVALID_PASSWORD;
-        // if needed
+        const password_regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+        if (!password_regexp.test(this.password)) throw UserSchemaException.INVALID_PASSWORD;
 
         return this;
     }
 
     validate_avatar_id() {
-        // Actually validate this stuff and do
-        // throw UserSchemaException.INVALID_EMAIL;
-        // if needed
-
         return this;
     }
 }
