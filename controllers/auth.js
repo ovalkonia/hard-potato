@@ -24,8 +24,11 @@ const auth_controller = {
 
             const model_adapter = new MySQLModelAdapter(connection, "users");
 
-            const lookup = await new UserModel(user_schema, model_adapter).get_first();
+            const lookup = await UserModel.get_first_filter(model_adapter, FilterBuilder.where("username", "=", user_schema.username));
             if (!lookup) throw UserModelException.INVALID_CREDENTIALS;
+
+            const user_model = new UserModel(lookup, model_adapter);
+            if (!await user_model.compare_password(user_schema.password)) throw UserModelException.INVALID_CREDENTIALS;
 
             req.session.user = lookup;
             res.json({
@@ -70,14 +73,13 @@ const auth_controller = {
                 if (lookup.username === user_schema.username) throw UserModelException.DUPLICATE_USERNAME;
             }
 
-            const user = await new UserModel(user_schema, model_adapter).save();
+            const user = new UserModel(user_schema, model_adapter);
+            await user.hash_password(10);
+            await user.save();
 
             res.json({
                 status: "Success!",
                 message: "Successfully registered!",
-                data: {
-                    id: user.insertId,
-                },
             });
         } catch (error) {
             return res.status(error.code).json(error.form_response());

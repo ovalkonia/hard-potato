@@ -130,18 +130,20 @@ const socket_controller = {
         if (!rooms_pool.battlefield_full(room_id)) return;
 
         rooms_pool.round_play(room_id);
-        players_sockets.me.emit("round", {
-            players: {
-                me: rooms_pool.players_get_private(room_id, users_ids.me),
-                opponent: rooms_pool.players_get_public(room_id, users_ids.opponent),
-            },
-        });
-        players_sockets.opponent.emit("round", {
-            players: {
-                me: rooms_pool.players_get_private(room_id, users_ids.opponent),
-                opponent: rooms_pool.players_get_public(room_id, users_ids.me),
-            },
-        });
+        setTimeout(() => {
+            players_sockets.me.emit("round", {
+                players: {
+                    me: rooms_pool.players_get_private(room_id, users_ids.me),
+                    opponent: rooms_pool.players_get_public(room_id, users_ids.opponent),
+                },
+            });
+            players_sockets.opponent.emit("round", {
+                players: {
+                    me: rooms_pool.players_get_private(room_id, users_ids.opponent),
+                    opponent: rooms_pool.players_get_public(room_id, users_ids.me),
+                },
+            });
+        }, 3000);
 
         // Check if we have a winner
 
